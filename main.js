@@ -8,28 +8,6 @@ const nbt = require("nbt");
 const unzip = promisify(zlib.unzip);
 const deflate = promisify(zlib.deflate);
 
-// Coordinate range for block changes
-// Lower bound is inclusive, upper bound is exclusive
-const X_MIN = -16, X_MAX = 32;
-const Y_MIN = -64, Y_MAX = 128;
-const Z_MIN = -16, Z_MAX = 32;
-
-// Calculate midpoint of allocated area
-const X_MID = Math.floor((X_MIN + X_MAX) / 2);
-const Y_MID = Math.floor((Y_MIN + Y_MAX) / 2);
-const Z_MID = Math.floor((Z_MIN + Z_MAX) / 2);
-
-const blocks = [];
-for (let x = 0; x < X_MAX - X_MIN; x ++) {
-  blocks[x] = [];
-  for (let y = 0; y < Y_MAX - Y_MIN; y ++) {
-    blocks[x][y] = [];
-    for (let z = 0; z < Z_MAX - Z_MIN; z ++) {
-      blocks[x][y][z] = "air";
-    }
-  }
-}
-
 /**
  * Extracts block arrays from a region (.mca) file.
  *
@@ -37,10 +15,13 @@ for (let x = 0; x < X_MAX - X_MIN; x ++) {
  * @param {[[[string]]]} blocks - Array to write to
  * @param {number} rx - Region file X coordinate
  * @param {number} rz - Region file Z coordinate
+ * @param {array} bounds - Coordinate boundaries of "blocks" array
  *
  * @return {[[[string]]]} Contents of `blocks` after modification
  */
-async function regionToBlocks (r, blocks, rx, rz) {
+async function regionToBlocks (r, blocks, rx, rz, bounds) {
+
+  const [X_MIN, Y_MIN, Z_MIN, X_MAX, Y_MAX, Z_MAX] = bounds;
 
   for (let i = 0; i < 1024; i ++) {
 
@@ -114,10 +95,13 @@ async function regionToBlocks (r, blocks, rx, rz) {
  * @param {Uint8Array} r - Region file byte buffer
  * @param {number} rx - Region file X coordinate
  * @param {number} rz - Region file Z coordinate
+ * @param {array} bounds - Coordinate boundaries of "blocks" array
  *
  * @return {Uint8Array} Contents of `r` after modification
  */
-async function blocksToRegion (blocks, r, rx, rz) {
+async function blocksToRegion (blocks, r, rx, rz, bounds) {
+
+  const [X_MIN, Y_MIN, Z_MIN, X_MAX, Y_MAX, Z_MAX] = bounds;
 
   for (let i = 0; i < 1024; i ++) {
 
@@ -230,14 +214,19 @@ async function blocksToRegion (blocks, r, rx, rz) {
  * Runs a function for each relevant region file.
  *
  * @param {function} callback - Function to call, passed a region byte buffer and its coordinates
+ * @param {array} bounds - Coordinate boundaries of "blocks" array
  */
-async function forRegion (callback) {
+async function forRegion (callback, bounds) {
+
+  const [X_MIN, Y_MIN, Z_MIN, X_MAX, Y_MAX, Z_MAX] = bounds;
+
   for (let rx = Math.floor(X_MIN / (16 * 32)); rx < Math.ceil(X_MAX / (16 * 32)); rx ++) {
     for (let rz = Math.floor(Z_MIN / (16 * 32)); rz < Math.ceil(Z_MAX / (16 * 32)); rz ++) {
       const region = await Bun.file(`${worldPath}/region/r.${rx}.${rz}.mca`).bytes();
       await callback(region, rx, rz);
     }
   }
+
 }
 
 const worldName = process.argv[2];
@@ -246,11 +235,6 @@ if (!worldName) {
   process.exit();
 }
 const worldPath = `${os.homedir()}/.minecraft/saves/${worldName}`;
-
-// Load region data into block array
-// await forRegion (async function (region, rx, rz) {
-//   await regionToBlocks(region, blocks, rx, rz);
-// });
 
 const separationDepth = 3;
 
@@ -288,20 +272,30 @@ function buildFileList (currentPath, list = [], depth = 0) {
   return list;
 }
 
-const fileList = buildFileList("/home/p2r3/").slice(0, 10000);
+const fileList = buildFileList("/");
+console.log(fileList.length);
 
-await Bun.write("list.json", JSON.stringify(fileList));
-
-let nodes = [[X_MID, Y_MIN, Z_MID]];
+let nodes = [[0, -64, 0]];
 
 const mapping = [];
 const visited = new Set();
 
 const palette = [
-  "lime_wool",
+  "white_wool",
+  "light_gray_wool",
+  "gray_wool",
+  "black_wool",
+  "brown_wool",
+  "red_wool",
   "orange_wool",
   "yellow_wool",
+  "lime_wool",
+  "green_wool",
+  "cyan_wool",
   "light_blue_wool",
+  "blue_wool",
+  "purple_wool",
+  "magenta_wool",
   "pink_wool"
 ];
 let paletteIndex = 0;
@@ -310,43 +304,91 @@ while (fileList.length > 0 && nodes.length > 0) {
 
   let [x, y, z] = nodes.shift();
 
-  if (
-    x < X_MIN || x >= X_MAX ||
-    y < Y_MIN || y >= Y_MAX ||
-    z < Z_MIN || z >= Z_MAX
-  ) continue;
-
   const key = `${x},${y},${z}`;
-  if (visited.has(key)) continue;
+  if (visited.has(key)) {
+    if (nodes.length === 0) {
+      let rx = 0, rz = 0;
+      do {
+        rx += Math.floor(Math.random() * 3) - 1;
+        rz += Math.floor(Math.random() * 3) - 1;
+      } while (mapping.find(c => c.x === rx && c.z === rz));
+      nodes.push([rx, -64, rz]);
+    }
+    continue;
+  }
   visited.add(key);
 
   const file = fileList.shift();
-  mapping.push({ x, y, z, file });
-
-  blocks[x - X_MIN][y - Y_MIN][z - Z_MIN] = palette[paletteIndex];
+  mapping.push({ x, y, z, file, block: (palette[paletteIndex % palette.length] || "stone"), valid: true });
 
   if (mapping.length > 1 && mapping[mapping.length - 2].file.parent !== file.parent) {
     console.log(file.parent);
     nodes = [];
-    y = Y_MIN;
     paletteIndex ++;
   }
 
   if (Math.random() < 0.05) nodes.push([x, y + 1, z]);
+  if (y > -64 && Math.random() < 0.05) nodes.push([x, y - 1, z]);
 
-  do {
-    nodes.push([x - 1, y, z]);
-    nodes.push([x + 1, y, z]);
-    nodes.push([x, y, z - 1]);
-    nodes.push([x, y, z + 1]);
-    if (Math.random() > 0.5) x += Math.random() > 0.5 ? -1 : 1;
-    else z += Math.random() > 0.5 ? -1 : 1;
-  } while (nodes.length === 0);
+  nodes.push([x - 1, y, z]);
+  nodes.push([x + 1, y, z]);
+  nodes.push([x, y, z - 1]);
+  nodes.push([x, y, z + 1]);
 
 }
 
-// Write block data to region files
-await forRegion (async function (region, rx, rz) {
-  await blocksToRegion(blocks, region, rx, rz);
-  await Bun.write(`${worldPath}/region/r.${rx}.${rz}.mca`, region);
-});
+console.log(fileList.length);
+
+async function placeFileBlocks () {
+
+  let _x, _z;
+
+  for (const entry of mapping) {
+    if (!entry.valid) continue;
+    _x = Math.floor(entry.x / 16);
+    _z = Math.floor(entry.z / 16);
+    break;
+  }
+
+  console.log(`Generating chunk (${_x} ${_z})`);
+
+  const blocks = [];
+  for (let x = 0; x < 16; x ++) {
+    blocks[x] = [];
+    for (let y = 0; y < 128 + 64; y ++) {
+      blocks[x][y] = [];
+      for (let z = 0; z < 16; z ++) {
+        blocks[x][y][z] = "air";
+      }
+    }
+  }
+
+  let validEntries = mapping.length;
+
+  for (const entry of mapping) {
+    if (!entry.valid) {
+      validEntries --;
+      continue;
+    }
+    if (_x !== Math.floor(entry.x / 16)) continue;
+    if (_z !== Math.floor(entry.z / 16)) continue;
+    blocks[entry.x - _x * 16][entry.y + 64][entry.z - _z * 16] = entry.block;
+    entry.valid = false;
+    validEntries --;
+  }
+
+  const bounds = [_x * 16, -64, _z * 16, _x * 16 + 16, 128, _z * 16 + 16];
+
+  await forRegion (async function (region, rx, rz) {
+    await blocksToRegion(blocks, region, rx, rz, bounds);
+    await Bun.write(`${worldPath}/region/r.${rx}.${rz}.mca`, region);
+  }, bounds);
+
+  return validEntries;
+
+}
+
+let validEntries;
+do {
+  validEntries = await placeFileBlocks();
+} while (validEntries > 0);
