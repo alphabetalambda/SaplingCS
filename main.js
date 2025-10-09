@@ -28,6 +28,7 @@ console.log(`Found ${fileList.length} files`);
 
 let nodes = [[0, 32, 0]]; // Open nodes
 const mapping = {}; // Closed nodes (linked to files)
+let trees = [];
 
 let terrainGroup = 0;
 let lastParent = "";
@@ -89,9 +90,37 @@ while (fileList.length > 0 && nodes.length > 0) {
   const shortParent = pathParts.slice(0, parentDepth + 1).join(path.sep);
 
   if (lastParent && lastParent !== shortParent) {
+    console.log(shortParent);
+
     nodes = [];
     terrainGroup ++;
-    console.log(shortParent);
+
+    for (const tree of trees) {
+      const { x, z, files } = tree;
+      const candidates = Object.values(mapping).filter(c => c.x === x && c.z === z);
+      candidates.sort((a, b) => b.y - a.y);
+      const y = candidates[0].y + 1;
+      for (let i = 0; i < 5; i ++) {
+        mapping[`${x},${y + i},${z}`] = { x, y: y + i, z, file: files.pop(), block: "oak_log", valid: true };
+      }
+      for (let i = 0; i < 2; i ++) {
+        for (let j = -2; j <= 2; j ++) {
+          for (let k = -2; k <= 2; k ++) {
+            if (j === 0 && k === 0) continue;
+            mapping[`${x + j},${y + i + 2},${z + k}`] = { x: x + j, y: y + i + 2, z: z + k, file: files.pop(), block: "oak_leaves", valid: true };
+          }
+        }
+      }
+      for (let i = 0; i < 2; i ++) {
+        for (let j = -1; j <= 1; j ++) {
+          for (let k = -1; k <= 1; k ++) {
+            if (i === 0 && j === 0 && k === 0) continue;
+            mapping[`${x + j},${y + i + 4},${z + k}`] = { x: x + j, y: y + i + 4, z: z + k, file: files.pop(), block: "oak_leaves", valid: true };
+          }
+        }
+      }
+    }
+    trees = [];
   }
   lastParent = shortParent;
 
@@ -110,6 +139,16 @@ while (fileList.length > 0 && nodes.length > 0) {
   if (suppressDirection !== 1) nodes.push([x + 1, y, z]);
   if (suppressDirection !== 2) nodes.push([x, y, z - 1]);
   if (suppressDirection !== 3) nodes.push([x, y, z + 1]);
+
+  if (Math.floor(Math.random() * 5000) === 0) {
+    if (fileList.length < 62) continue;
+    if (trees.find(c => c.x === x && c.z === z)) continue;
+    trees.push({
+      x, z,
+      files: fileList.slice(0, 62)
+    });
+    fileList.splice(0, 62);
+  }
 
 }
 
@@ -176,6 +215,8 @@ async function placeFileBlocks () {
       for (let z = 0; z < 16; z ++) {
 
         if (blocks[x][y][z] === "air") continue;
+        if (blocks[x][y][z] === "oak_log") continue;
+        if (blocks[x][y][z] === "oak_leaves") continue;
 
         const adjacent = countAdjacent(x, y, z);
         if (adjacent > 2) continue;
@@ -214,7 +255,7 @@ async function placeFileBlocks () {
     for (let x = 0; x < 16; x ++) {
       for (let y = 0; y < 128 + 64; y ++) {
         for (let z = 0; z < 16; z ++) {
-          if (blocks[x][y][z] !== "air" && blocks[x][y + 1][z] !== "air") blocks[x][y][z] = "dirt";
+          if (blocks[x][y][z] === "grass_block" && blocks[x][y + 1][z] !== "air") blocks[x][y][z] = "dirt";
         }
       }
     }
