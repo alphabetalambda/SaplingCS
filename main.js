@@ -101,7 +101,6 @@ while (fileList.length > 0 && nodes.length > 0) {
     for (const tree of trees) {
 
       const candidates = Object.values(mapping).filter(c => (
-        c.file.path.split(path.sep).slice(0, -1).slice(0, parentDepth + 1).join(path.sep) === lastParent &&
         c.pos.x === tree.pos.x &&
         c.pos.z === tree.pos.z
       ));
@@ -166,7 +165,10 @@ while (fileList.length > 0 && nodes.length > 0) {
 
   if (Math.floor(Math.random() * 5000) === 0) {
     if (fileList.length < 62) continue;
-    if (trees.find(c => c.pos.x === pos.x && c.pos.z === pos.z)) continue;
+    if (trees.find(c => (
+      Math.abs(c.pos.x - pos.x) < 5 &&
+      Math.abs(c.pos.z - pos.z) < 5
+    ))) continue;
     trees.push({
       pos: pos,
       files: fileList.slice(0, 62)
