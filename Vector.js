@@ -42,9 +42,13 @@ module.exports = class Vector {
   shifted (dir) {
     return this.add(Vector.DIRECTIONS[dir]);
   }
-  // Convert from relative chunk coordinates to absolute coordinates
+  // Convert from chunk-relative coordinates to absolute coordinates
   absolute (_x, _z) {
     return this.add(_x * 16, -64, _z * 16);
+  }
+  // Convert from absolute coordinates to chunk-relative coordinates
+  relative (_x, _z) {
+    return this.sub(_x * 16, -64, _z * 16);
   }
 
 }
