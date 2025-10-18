@@ -29,7 +29,7 @@ console.log(`Found ${fileList.length} files`);
 
 let nodes = [new Vector(0, 32, 0)]; // Open nodes
 const mapping = {}; // Closed nodes (linked to files)
-let trees = [];
+let trees = [], ponds = [];
 
 let terrainGroup = 0;
 let lastParent = "";
@@ -58,6 +58,23 @@ const debugPalette = [
   "magenta_wool",
   "pink_wool"
 ];
+
+// Whether the block is part of natural ground terrain
+function isGroundBlock (block) {
+  return (
+    block === "dirt" ||
+    block === "grass_block"
+  );
+}
+
+// Whether grass converts to dirt under this block
+function isHeavyBlock (block) {
+  return isGroundBlock(block) || block === "water";
+}
+
+function isAir (block) {
+  return !block || block === "air";
+}
 
 const suppressMaxIterations = 100;
 let suppressFor = Math.floor(Math.random() * suppressMaxIterations);
@@ -98,6 +115,58 @@ while (fileList.length > 0 && nodes.length > 0) {
     nodes = [];
     terrainGroup ++;
 
+    for (const pond of ponds) {
+
+      const candidates = Object.values(mapping).filter(c => (
+        c.pos.x === pond.x &&
+        c.pos.z === pond.z
+      ));
+      candidates.sort((a, b) => b.pos.y - a.pos.y);
+      pond.y = candidates[0].pos.y;
+
+      const fillNodes = [pond];
+
+      do {
+
+        const curr = fillNodes.shift();
+        const key = curr.toString();
+        if (!(key in mapping)) continue;
+
+        if (trees.find(c => (
+          Math.abs(c.pos.x - curr.x) < 3 &&
+          Math.abs(c.pos.z - curr.z) < 3
+        ))) continue;
+
+        const blockAbove = mapping[curr.add(0, 1, 0).toString()]?.block;
+        if (isGroundBlock(blockAbove)) continue;
+
+        let neighbors = 0;
+        let skip = false;
+        for (let i = 0; i < 6; i ++) {
+          const shiftKey = curr.shifted(i).toString();
+          const block = mapping[shiftKey]?.block;
+          if (i < 4 && isAir(block)) {
+            skip = true;
+            break;
+          }
+          if (block === "water") neighbors ++;
+        }
+        if (skip) continue;
+
+        mapping[key].block = "water";
+
+        for (let i = 0; i < 4; i ++) {
+          if (neighbors < 3 && Math.random() < 0.1) continue;
+          fillNodes.push(curr.shifted(i));
+        }
+        if (curr.y < 127 && Math.random() < 0.05) fillNodes.push(curr.add(0, 1, 0));
+        if (curr.y > -64 && Math.random() < 0.05) fillNodes.push(curr.add(0, -1, 0));
+
+      } while (Math.floor(Math.random() * 2000) !== 0 && fillNodes.length > 0);
+
+    }
+    ponds = [];
+
     for (const tree of trees) {
 
       const candidates = Object.values(mapping).filter(c => (
@@ -110,6 +179,11 @@ while (fileList.length > 0 && nodes.length > 0) {
       // Tree stump
       for (let i = 0; i < 5; i ++) {
         const target = tree.pos.add(0, i, 0);
+        const key = target.toString();
+        if (key in mapping) {
+          fileList.push(tree.files.pop());
+          continue;
+        }
         mapping[target.toString()] = { pos: target, file: tree.files.pop(), block: "oak_log" }
       }
       // Bottom leaf layer
@@ -119,6 +193,11 @@ while (fileList.length > 0 && nodes.length > 0) {
             if (j === 0 && k === 0) continue;
             if (i === 1 && Math.abs(j) === 2 && Math.abs(k) === 2) continue;
             const target = tree.pos.add(j, i + 2, k);
+            const key = target.toString();
+            if (key in mapping) {
+              fileList.push(tree.files.pop());
+              continue;
+            }
             mapping[target.toString()] = { pos: target, file: tree.files.pop(), block: "oak_leaves" };
           }
         }
@@ -130,6 +209,11 @@ while (fileList.length > 0 && nodes.length > 0) {
             if (i === 0 && j === 0 && k === 0) continue;
             if (i === 1 && j !== 0 && k !== 0) continue;
             const target = tree.pos.add(j, i + 4, k);
+            const key = target.toString();
+            if (key in mapping) {
+              fileList.push(tree.files.pop());
+              continue;
+            }
             mapping[target.toString()] = { pos: target, file: tree.files.pop(), block: "oak_leaves" };
           }
         }
@@ -162,6 +246,10 @@ while (fileList.length > 0 && nodes.length > 0) {
   }
   if (pos.y < 127 && Math.random() < 0.05) nodes.push(pos.add(0, 1, 0));
   if (pos.y > -64 && Math.random() < 0.05) nodes.push(pos.add(0, -1, 0));
+
+  if (Math.floor(Math.random() * 10000) === 0) {
+    ponds.push(pos.clone());
+  }
 
   if (Math.floor(Math.random() * 5000) === 0) {
     if (fileList.length < 62) continue;
@@ -272,8 +360,7 @@ await forMappedChunks(async function (blocks, entries, _x, _z, bounds) {
     swaps = 0;
     for (const entry of entries) {
 
-      if (entry.block === "oak_log") continue;
-      if (entry.block === "oak_leaves") continue;
+      if (!isGroundBlock(entry.block)) continue;
 
       const pos = entry.pos;
       const adjacent = countAdjacent(pos);
@@ -296,8 +383,14 @@ await forMappedChunks(async function (blocks, entries, _x, _z, bounds) {
           rel.z < 0 || rel.z >= 16 ||
           rel.y < 0 || rel.y >= 128 + 64
         ) continue;
+        // Abort if we're next to water
+        const key = abs.toString();
+        if (mapping[abs]?.block === "water") {
+          bestAdjacent = adjacent;
+          break;
+        }
         // Make sure we're not shifting into an existing block
-        if (abs.toString() in mapping) continue;
+        if (key in mapping) continue;
         // Compare this cluster to the previous best
         const newAdjacent = countAdjacent(abs);
         if (newAdjacent <= bestAdjacent) continue;
@@ -307,6 +400,11 @@ await forMappedChunks(async function (blocks, entries, _x, _z, bounds) {
 
       // If no progress was made, restore previous mapping entry
       if (bestAdjacent === adjacent) {
+        // Convert 1-block stubs to short grass
+        if (adjacent === 1) {
+          const blockBelow = mapping[pos.add(0, -1, 0).toString()]?.block;
+          if (blockBelow === "grass_block") entry.block = "short_grass";
+        }
         mapping[key] = entry;
         continue;
       }
@@ -324,9 +422,20 @@ await forMappedChunks(async function (blocks, entries, _x, _z, bounds) {
   for (const entry of entries) {
     // Convert covered grass blocks to dirt
     const blockAbove = mapping[entry.pos.add(0, 1, 0).toString()];
-    if (entry.block === "grass_block" && blockAbove && blockAbove.block !== "oak_leaves") {
+    if (entry.block === "grass_block" && isHeavyBlock(blockAbove?.block)) {
       entry.block = "dirt";
     }
+    // Convert lonely blocks in ponds to water
+    let waterAdjacent = 0;
+    for (let i = 0; i < 6; i ++) {
+      if (mapping[entry.pos.shifted(i).toString()]?.block === "water") {
+        waterAdjacent ++;
+      } else if (i < 4) {
+        waterAdjacent = 0;
+        break;
+      }
+    }
+    if (waterAdjacent >= 5) entry.block = "water";
     // Assign block to chunk array
     const [x, y, z] = entry.pos.relative(_x, _z).toArray();
     blocks[x][y][z] = entry.block;
