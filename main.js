@@ -76,9 +76,8 @@ function isAir (block) {
   return !block || block === "air";
 }
 
-const suppressMaxIterations = 100;
-let suppressFor = Math.floor(Math.random() * suppressMaxIterations);
-let suppressDirection = Math.floor(Math.random() * 4);
+let suppressFor = 0;
+let suppressDirection = 0;
 
 while (fileList.length > 0 && nodes.length > 0) {
 
@@ -100,7 +99,7 @@ while (fileList.length > 0 && nodes.length > 0) {
 
   suppressFor --;
   if (suppressFor <= 0) {
-    suppressFor = Math.floor(Math.random() * suppressMaxIterations);
+    suppressFor = Math.floor(Math.random() * nodes.length / 5);
     suppressDirection = Math.floor(Math.random() * 4);
   }
 
@@ -240,8 +239,13 @@ while (fileList.length > 0 && nodes.length > 0) {
   if (pos.y > maxs.y) maxs.y = pos.y;
   if (pos.z > maxs.z) maxs.z = pos.z;
 
+  let adjacent = 0;
+  for (let i = 0; i < 6; i ++) {
+    if (pos.shifted(i).toString() in mapping) adjacent ++;
+  }
+
   for (let i = 0; i < 4; i ++) {
-    if (suppressDirection === i) continue;
+    if (adjacent < 3 && suppressDirection === i) continue;
     nodes.push(pos.shifted(i));
   }
   if (pos.y < 127 && Math.random() < 0.05) nodes.push(pos.add(0, 1, 0));
