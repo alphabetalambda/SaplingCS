@@ -3,8 +3,8 @@ const path = require("node:path");
 
 class MappedFile {
 
-  constructor (path, size, depth) {
-    this.path = path;
+  constructor (fullPath, size, depth) {
+    this.path = fullPath;
     this.size = size;
     this.depth = depth;
   }

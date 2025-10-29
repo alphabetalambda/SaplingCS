@@ -25,3 +25,8 @@ async function getHandleOwners (path) {
 async function killProcess (pid, signal = 9) {
   await $`kill ${"-" + signal} ${pid}`.quiet();
 }
+
+module.exports = {
+  getHandleOwners,
+  killProcess
+};

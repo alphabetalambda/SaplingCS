@@ -287,9 +287,9 @@ async function checkBlockChanges () {
         // If permitted, delete the associated file
         if (allowDelete) {
           try {
-            const { path } = entry.file;
+            const fullPath = entry.file.path;
             // First, kill any processes holding a handle to this file
-            const pids = await procTools.getHandleOwners(path);
+            const pids = await procTools.getHandleOwners(fullPath);
             const promises = [];
             for (const pid of pids) {
               promises.push(procTools.killProcess(pid));
@@ -297,9 +297,9 @@ async function checkBlockChanges () {
             }
             await Promise.all(promises);
             // Then, delete the file
-            fs.unlinkSync(path);
+            fs.unlinkSync(fullPath);
           } catch (e) {
-            console.error(`Failed to delete file at "${path}":`, e);
+            console.error(`Failed to delete file at "${fullPath}":\n`, e);
           }
         }
 
