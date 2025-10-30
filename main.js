@@ -254,15 +254,17 @@ console.log("Listening for block changes...");
 
 async function checkBlockChanges () {
 
-  // Iterate over all used regions
-  await world.forRegion(worldPath, async function (region, rx, rz) {
+  // Iterate over all used regions asynchronously
+  const regionPromises = [];
+  regionPromises.push(world.forRegion(worldPath, async function (region, rx, rz) {
 
     // Compare checksums and skip region if no changes were made
     if (regionChecksum[`${rx},${rz}`] === region.checksum) return;
     regionChecksum[`${rx},${rz}`] = region.checksum;
 
-    // Iterate over all mapped chunks within this region
-    await worldGenTools.forMappedChunks(async function (blocks, entries, _x, _z, bounds) {
+    // Iterate over all mapped chunks within this region asynchronously
+    const chunkPromises = [];
+    chunkPromises.push(worldGenTools.forMappedChunks(async function (blocks, entries, _x, _z, bounds) {
 
       // "Sleep" to allow other threads to run
       await new Promise((resolve) => setTimeout(resolve, 10));
@@ -310,8 +312,13 @@ async function checkBlockChanges () {
 
       }
 
-    }, rx, rz);
-  }, worldGenTools.terrainBounds);
+    }, rx, rz));
+    // Join all chunk threads
+    await Promise.all(chunkPromises);
+
+  }, worldGenTools.terrainBounds));
+  // Join all region threads
+  await Promise.all(regionPromises);
 
   // Repeat this check after a delay
   setTimeout(checkBlockChanges, 200);
