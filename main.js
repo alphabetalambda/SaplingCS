@@ -38,6 +38,7 @@ let worldName = process.argv[2];
 const debug = queryArgument("debug");
 const rootPath = queryArgument("path", false) || defaultRoot;
 const parentDepth = Number(queryArgument("depth", false)) || defaultParentDepth;
+const noProgress = queryArgument("no-progress");
 const timeString = (new Date()).toLocaleTimeString("en-US", { hour12: false }).slice(0, -3);
 const allowDelete = queryArgument("allow-delete", false) === timeString;
 // Validate parameters
@@ -49,6 +50,7 @@ Options:
     --debug                 Generates colorful terrain to help debug directory grouping.
     --path <string>         Root path from which to look for files.
     --depth <number>        Depth from absolute root at which to split directory groups.
+    --no-progress           Don't save/load current world progress to/from disk.
 
     --allow-delete <hh:mm>  Enables actually deleting files when blocks are altered.
                             For confirmation, requires current system time in 24h format.
@@ -111,7 +113,7 @@ async function writeMappingToDisk () {
 
 }
 
-if (fs.existsSync(mappingJSONPath)) {
+if (!noProgress && fs.existsSync(mappingJSONPath)) {
 
   console.log("Restoring block-file mapping from file...");
   const compressed = await Bun.file(mappingJSONPath).bytes();
@@ -146,7 +148,9 @@ if (fs.existsSync(mappingJSONPath)) {
   await worldGenTools.buildRegionData(fileList, parentDepth, worldPath, debug);
   console.log(`Done, ${fileList.length} files left unallocated.\n`);
 
-  await writeMappingToDisk();
+  if (!noProgress) {
+    await writeMappingToDisk();
+  }
 
 }
 
@@ -343,5 +347,7 @@ async function checkBlockChanges () {
 }
 checkBlockChanges();
 
-// Save block-file mapping every few minutes
-setInterval(writeMappingToDisk, 1000 * 60 * 5);
+if (!noProgress) {
+  // Save block-file mapping every few minutes
+  setInterval(writeMappingToDisk, 1000 * 60 * 5);
+}
