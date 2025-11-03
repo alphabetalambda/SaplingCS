@@ -177,7 +177,7 @@ async function blocksToRegion (blocks, r, rx, rz, bounds) {
     for (const section of json.value.sections.value.value) {
 
       const ids = [];
-      const palette = ["air"];
+      const palette = [];
 
       const _y = section["Y"].value;
 
@@ -215,10 +215,6 @@ async function blocksToRegion (blocks, r, rx, rz, bounds) {
       section.block_states = {
         type: "compound",
         value: {
-          data: {
-            type: "longArray",
-            value: longs
-          },
           palette: {
             type: "list",
             value: {
@@ -233,6 +229,13 @@ async function blocksToRegion (blocks, r, rx, rz, bounds) {
           },
         }
       };
+
+      if (palette.length > 1) {
+        section.block_states.value.data = {
+          type: "longArray",
+          value: longs
+        };
+      }
 
       section["SkyLight"] = {
         type: "byteArray",
