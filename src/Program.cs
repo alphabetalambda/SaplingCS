@@ -199,14 +199,14 @@ class Program
     /// </summary>
     private static async Task WriteMappingToDiskAsync(string path, TerrainGenerator terrainGenerator)
     {
-        var compactMapping = new Dictionary<string, object>();
+        var compactMapping = new Dictionary<string, MappingEntry>();
 
         foreach (var kvp in terrainGenerator.Mapping)
         {
             var pos = kvp.Value.Position;
             var file = kvp.Value.FilePath;
 
-            compactMapping[kvp.Key] = new
+            compactMapping[kvp.Key] = new MappingEntry
             {
                 pos = new[] { pos.X, pos.Y, pos.Z },
                 file = new object[] { file, 0, 0 }, // Size and depth not needed for restore
@@ -214,7 +214,7 @@ class Program
             };
         }
 
-        string json = JsonSerializer.Serialize(compactMapping);
+        string json = JsonSerializer.Serialize(compactMapping, MappingJsonContext.Default.DictionaryStringMappingEntry);
         byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
 
         using var outputStream = File.Create(path);
