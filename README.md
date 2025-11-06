@@ -6,7 +6,7 @@ Maps every file on your computer to a block in a Minecraft world. Breaking block
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![.NET Version](https://img.shields.io/badge/.NET-9.0-purple)
-![Tests](https://img.shields.io/badge/tests-77%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-106%20passing-brightgreen)
 
 ---
 
@@ -28,6 +28,77 @@ dotnet run --project src/SaplingFS.csproj -- <world_name>
 
 # Example with options
 dotnet run --project src/SaplingFS.csproj -- test_world --debug --path ~/Documents --depth 3
+```
+
+### Compile to Executable
+
+You can compile SaplingFS into a standalone executable that doesn't require .NET to be installed:
+
+#### **Linux (x64)**
+```bash
+# Build self-contained executable for Linux
+dotnet publish src/SaplingFS.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+
+# Executable will be at:
+# src/bin/Release/net9.0/linux-x64/publish/SaplingFS
+
+# Run it:
+./src/bin/Release/net9.0/linux-x64/publish/SaplingFS MyWorld
+```
+
+#### **macOS (ARM64 - M1/M2/M3/M4)**
+```bash
+# Build self-contained executable for macOS ARM
+dotnet publish src/SaplingFS.csproj -c Release -r osx-arm64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+
+# Executable will be at:
+# src/bin/Release/net9.0/osx-arm64/publish/SaplingFS
+
+# Run it:
+./src/bin/Release/net9.0/osx-arm64/publish/SaplingFS MyWorld
+```
+
+#### **macOS (x64 - Intel)**
+```bash
+# Build self-contained executable for macOS Intel
+dotnet publish src/SaplingFS.csproj -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+
+# Executable will be at:
+# src/bin/Release/net9.0/osx-x64/publish/SaplingFS
+
+# Run it:
+./src/bin/Release/net9.0/osx-x64/publish/SaplingFS MyWorld
+```
+
+#### **Windows (x64)**
+```bash
+# Build self-contained executable for Windows
+dotnet publish src/SaplingFS.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+
+# Executable will be at:
+# src\bin\Release\net9.0\win-x64\publish\SaplingFS.exe
+
+# Run it:
+.\src\bin\Release\net9.0\win-x64\publish\SaplingFS.exe MyWorld
+```
+
+#### **Publish Options Explained**
+
+- `--self-contained true` - Bundles .NET runtime (no .NET installation required)
+- `-p:PublishSingleFile=true` - Creates a single executable file
+- `-p:PublishTrimmed=true` - Removes unused code to reduce size (~50-70 MB)
+- `-c Release` - Optimized release build
+
+#### **Without Self-Contained (Requires .NET)**
+
+If you want a smaller executable that requires .NET to be installed:
+
+```bash
+# Framework-dependent (much smaller, ~500 KB)
+dotnet publish src/SaplingFS.csproj -c Release -r osx-arm64 -p:PublishSingleFile=true
+
+# Run it (requires .NET 9.0 installed):
+./src/bin/Release/net9.0/osx-arm64/publish/SaplingFS MyWorld
 ```
 
 ### Common Options
@@ -53,7 +124,7 @@ SaplingFS/
 │   ├── Services/             # Core services (WorldParser, TerrainGenerator, etc.)
 │   ├── Configuration/        # Command-line options
 │   └── Program.cs            # Entry point
-├── tests/                     # Unit tests (77 tests, 100% passing)
+├── tests/                     # Unit tests (106 tests, 100% passing)
 │   ├── Models/               # Model tests
 │   ├── Services/             # Service tests
 │   └── PerformanceBenchmarks.cs
@@ -101,6 +172,7 @@ SaplingFS/
 - `ClipboardMonitor` - Player position tracking
 - `BlockChangeMonitor` - Region file change detection
 - `ProcessManager` - Cross-platform process/handle management
+- `StatusDisplay` - Real-time progress tracking with ETA calculations
 
 ### Algorithms
 
@@ -162,9 +234,9 @@ dotnet test --filter "FullyQualifiedName~PerformanceBenchmarks"
 ```
 
 **Test Coverage:**
-- ✅ 77 tests, 100% passing
+- ✅ 106 tests, 100% passing
 - ✅ Models: Vector, MappedFile, BlockMapping
-- ✅ Services: FileScanner, TerrainGenerator, RaycastService
+- ✅ Services: FileScanner, TerrainGenerator, RaycastService, StatusDisplay
 - ✅ Performance benchmarks
 
 ---
@@ -211,6 +283,7 @@ dotnet test
 
 - [Performance Analysis](docs/PERFORMANCE_ANALYSIS.md) - Technical comparison with JavaScript
 - [Benchmark Results](docs/BENCHMARK_RESULTS.md) - Actual measured performance
+- [macOS File Access Guide](docs/MACOS_FILE_ACCESS.md) - Handling system permissions on macOS
 - [Migration Analysis](docs/DOTNET_MIGRATION_ANALYSIS.md) - Original migration plan
 - [Continuation Notes](docs/CONTINUATION_NOTES.md) - Development session notes
 - [CLAUDE.md](CLAUDE.md) - Guide for AI assistants
