@@ -34,6 +34,8 @@ dotnet run --project src/SaplingFS.csproj -- test_world --debug --path ~/Documen
 
 You can compile SaplingFS into a standalone executable that doesn't require .NET to be installed:
 
+> **Note:** The first time you publish for a specific platform, `dotnet publish` will download the runtime for that platform (~50-70 MB). This can take 1-3 minutes depending on your connection. Subsequent builds will be much faster.
+
 #### **Linux (x64)**
 ```bash
 # Build self-contained executable for Linux
@@ -46,7 +48,7 @@ dotnet publish src/SaplingFS.csproj -c Release -r linux-x64 --self-contained tru
 ./src/bin/Release/net9.0/linux-x64/publish/SaplingFS MyWorld
 ```
 
-#### **macOS (ARM64 - M1/M2/M3/M4)**
+#### **macOS (ARM64 - M1/M2/M3/M4)** ⭐ Recommended for Apple Silicon
 ```bash
 # Build self-contained executable for macOS ARM
 dotnet publish src/SaplingFS.csproj -c Release -r osx-arm64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
@@ -57,6 +59,8 @@ dotnet publish src/SaplingFS.csproj -c Release -r osx-arm64 --self-contained tru
 # Run it:
 ./src/bin/Release/net9.0/osx-arm64/publish/SaplingFS MyWorld
 ```
+
+> **For M-series Macs:** Use `osx-arm64` above. The Intel version (`osx-x64`) will work via Rosetta but will be slower.
 
 #### **macOS (x64 - Intel)**
 ```bash
@@ -100,6 +104,26 @@ dotnet publish src/SaplingFS.csproj -c Release -r osx-arm64 -p:PublishSingleFile
 # Run it (requires .NET 9.0 installed):
 ./src/bin/Release/net9.0/osx-arm64/publish/SaplingFS MyWorld
 ```
+
+#### **Troubleshooting Publish**
+
+**"Restore is taking a long time"**
+- **First-time:** Downloading runtime packages takes 1-3 minutes (50-70 MB)
+- **Check progress:** Add `-v:n` for normal verbosity to see what's downloading
+  ```bash
+  dotnet publish src/SaplingFS.csproj -c Release -r osx-arm64 --self-contained true -v:n
+  ```
+- **Subsequent builds:** Will be much faster as packages are cached
+
+**"Hung on restore"**
+- Press `Ctrl+C` to cancel, then try again
+- Clear NuGet cache if needed: `dotnet nuget locals all --clear`
+- Check internet connection
+
+**"Executable too large"**
+- Self-contained executables are 50-70 MB (includes .NET runtime)
+- Use framework-dependent build for ~500 KB (requires .NET installed)
+- `PublishTrimmed=true` already removes unused code
 
 ### Common Options
 
