@@ -1,7 +1,3 @@
-node_modules
-bun.lock
-mapping
-
 # .NET build outputs
 bin/
 obj/
@@ -18,16 +14,23 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
+[Bb]in/
+[Oo]bj/
 
-# Visual Studio / VS Code / Rider
+# Visual Studio cache/options
 .vs/
 .vscode/
+
+# Rider
 .idea/
 *.sln.iml
 
 # User-specific files
 *.rsuser
+*.suo
+*.user
 *.userosscache
+*.sln.docstates
 
 # NuGet
 *.nupkg
@@ -52,3 +55,9 @@ Desktop.ini
 
 # Backup files
 *_SaplingFS_backup/
+
+# Mapping data
+mapping/
+
+# JavaScript/Bun files (original codebase)
+node_modules/
