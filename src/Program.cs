@@ -26,7 +26,8 @@ class Program
         }
 
         // Find Minecraft world path
-        string worldPath = ResolveWorldPath(options.WorldName);
+        var worldPathResolver = new WorldPathResolver();
+        string worldPath = worldPathResolver.ResolveWorldPath(options.WorldName);
         if (!Directory.Exists(worldPath))
         {
             Console.Error.WriteLine($"World not found: \"{worldPath}\"");
@@ -149,34 +150,6 @@ class Program
         }
     }
 
-    /// <summary>
-    /// Resolves the world name to a full path.
-    /// </summary>
-    private static string ResolveWorldPath(string worldName)
-    {
-        // Check if it's already a directory path
-        if (Directory.Exists(worldName))
-        {
-            return Path.GetFullPath(worldName);
-        }
-
-        // Otherwise, look in .minecraft/saves
-        string minecraftPath;
-        if (OperatingSystem.IsWindows())
-        {
-            minecraftPath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                ".minecraft", "saves", worldName);
-        }
-        else
-        {
-            minecraftPath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                ".minecraft", "saves", worldName);
-        }
-
-        return minecraftPath;
-    }
 
     /// <summary>
     /// Recursively copies a directory.
