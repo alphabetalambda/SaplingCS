@@ -27,7 +27,17 @@ class Program
 
         // Find Minecraft world path
         var worldPathResolver = new WorldPathResolver();
-        string worldPath = worldPathResolver.ResolveWorldPath(options.WorldName);
+        string worldPath;
+        try
+        {
+            worldPath = worldPathResolver.ResolveWorldPath(options.WorldName, options);
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.Error.WriteLine($"Error: {ex.Message}");
+            return;
+        }
+
         if (!Directory.Exists(worldPath))
         {
             Console.Error.WriteLine($"World not found: \"{worldPath}\"");

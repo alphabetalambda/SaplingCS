@@ -1,3 +1,5 @@
+using SaplingFS.Models;
+
 namespace SaplingFS.Configuration;
 
 /// <summary>
@@ -12,6 +14,8 @@ public class CommandLineOptions
     public bool NoProgress { get; set; }
     public List<string> Blacklist { get; set; } = [];
     public bool AllowDelete { get; set; }
+    public LauncherType? Launcher { get; set; }
+    public string? InstanceName { get; set; }
 
     /// <summary>
     /// Parses command-line arguments into a CommandLineOptions object.
@@ -74,6 +78,24 @@ public class CommandLineOptions
                         options.AllowDelete = args[++i] == timeString;
                     }
                     break;
+
+                case "--launcher":
+                    if (i + 1 < args.Length)
+                    {
+                        var launcherStr = args[++i];
+                        if (Enum.TryParse<LauncherType>(launcherStr, true, out var launcherType))
+                        {
+                            options.Launcher = launcherType;
+                        }
+                    }
+                    break;
+
+                case "--instance":
+                    if (i + 1 < args.Length)
+                    {
+                        options.InstanceName = args[++i];
+                    }
+                    break;
             }
         }
 
@@ -103,6 +125,12 @@ Options:
     --depth <number>        Depth from absolute root at which to split directory groups.
     --no-progress           Don't save/load current world progress to/from disk.
     --blacklist <path;...>  Semicolon-separated paths to blacklist from the scan.
+
+    --launcher <name>       Specify launcher: Official, PrismLauncher, MultiMC, CurseForge,
+                            ATLauncher, Modrinth, or GDLauncher. If not specified, uses
+                            official launcher or detects automatically.
+    --instance <name>       Specify instance name when using third-party launchers.
+                            If not specified and multiple instances exist, shows a picker.
 
     --allow-delete <hh:mm>  Enables actually deleting files when blocks are altered.
                             For confirmation, requires current system time in 24h format.
