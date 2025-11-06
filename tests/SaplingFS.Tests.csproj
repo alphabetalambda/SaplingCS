@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SaplingFS\SaplingFS.csproj" />
+    <ProjectReference Include="..\src\SaplingFS.csproj" />
   </ItemGroup>
 
 </Project>

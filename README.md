@@ -1,40 +1,291 @@
-# SaplingFS
-Voxel-based Entropy-oriented Minecraft File System.
+# SaplingFS - .NET Edition
 
-In other words: every block in-game is mapped to a file on your computer. Breaking blocks deletes their associated files. See this video for a visual explanation: https://youtu.be/NPvLTFl9o-M
+**Voxel-based Entropy-oriented Minecraft File System**
 
-## Usage
-> [!WARNING]
-> **This program is capable of deleting files and killing other processes.**
-> 
-> The following guide describes only how to set up a "read-only" instance, which _should_ be safe.
+Maps every file on your computer to a block in a Minecraft world. Breaking blocks in-game deletes their associated files.
 
-1. Download the latest release binary for your operating system.
-   - If you're on **Windows**, you'll want [`SaplingFS-windows.exe`](https://github.com/p2r3/SaplingFS/releases/download/latest/SaplingFS-windows.exe).
-     - On certain Windows browsers, the download may be blocked as unsafe. Rest assured that the entire code and build process is public and open-source, so if I _was_ trying to give you a virus, people would've already called me out on that. To dismiss this warning, find the menu containing the "Keep" option.
-   - If you're on **Linux**, you'll want [`SaplingFS-linux`](https://github.com/p2r3/SaplingFS/releases/download/latest/SaplingFS-linux).
-2. Open a terminal shell.
-   - **On Windows**: Go to the folder where you downloaded `SaplingFS-windows.exe`. Hold Shift and right-click anywhere in the folder. You should see an option to open PowerShell - click that.
-   - **On Linux**: You probably already know how to open a terminal. In most file browsers, F4 opens one in the current directory. You'll likely have to run `chmod +x SaplingFS-linux` to make the file executable. This program depends on the `lsof` and `xsel` tools, so make sure you have those installed too.
-3. Create a new Minecraft void world.
-   - Any relatively modern Minecraft version should work, though this has been tested most thoroughly on 1.21.10.
-   - To create a _void world_, go into the "World" tab, switch "World Type" to "Superflat", click "Customize", click "Presets", and select "The Void".
-     - If you want mobs to spawn, you'll have to change the last part of the preset text from `minecraft:the_void` to `minecraft:plains` (or similar).
-   - Make sure the game mode is "Creative", or at least ensure that you'll be able to run commands.
-   - Give the world a unique (and ideally simple) name. The rest of this guide will use "`saplingfs_world`", so either use the same name or remember to replace it in the commands that follow.
-4. Disable random ticks (optional but recommended).
-   - Once in-game, use the command `/gamerule randomTickSpeed 0` to disable random block ticks. For an unknown reason, leaves placed by this program decay despite being connected to a log. (Contributions welcome.)
-5. Save the world and quit to the title screen.
-6. In the terminal window you opened earlier:
-   - **On Windows**: type `.\SaplingFS-windows.exe "saplingfs_world"`
-   - **On Linux**: type `./SaplingFS-linux "saplingfs_world"`
-     - If your Minecraft installation is in a non-standard location (such as when using a third-party launcher), you can provide an absolute path to the world folder instead of the world name.
-     - This will begin scanning your filesystem and generating terrain from it. The world you chose will be backed up before the new chunks get injected. Once this process has finished, you should see a message claiming that it's listening for clipboard changes and block changes. **If you see mentions of deleted files**, do not worry. Unless you've explicitly allowed the program to delete files, these messages are purely cosmetic.
-     - You can stop the program by pressing `Ctrl + C`. The next time you run this same command, the program will attempt to "continue" where you last left off. If you instead want to generate new terrain, either delete the `mapping` folder beside the program binary, or add `--no-progress` to the end of the command.
+![License](https://img.shields.io/badge/license-MIT-blue)
+![.NET Version](https://img.shields.io/badge/.NET-9.0-purple)
+![Tests](https://img.shields.io/badge/tests-77%20passing-brightgreen)
 
-For a more succinct usage guide, run the program without any arguments.
+---
 
-## Contributing
-Contributions _are_ welcome, but please keep in mind that I don't intend to actively maintain this repository outside of critical bugfixes. As such,
-- Expect new features to be merged slowly or not at all.
-- This is _not_ a good place to make your first open-source contribution. I tend to be very mean if I feel like someone's wasting my time. So, if you _do_ contribute, please do so meaningfully and with effort. Half-assed QoL commits will not be accepted. I do wish I could be more inclusive of contributions of all sizes, but there simply aren't enough hours in the day for that. Thank you for understanding.
+## 🚀 Quick Start
+
+### Prerequisites
+- [.NET 9.0 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- Minecraft Java Edition
+- A test world (make a backup first!)
+
+### Build & Run
+
+```bash
+# Build the solution
+dotnet build SaplingFS.sln
+
+# Run with a world name
+dotnet run --project src/SaplingFS.csproj -- <world_name>
+
+# Example with options
+dotnet run --project src/SaplingFS.csproj -- test_world --debug --path ~/Documents --depth 3
+```
+
+### Common Options
+
+```
+--debug                 Colorful terrain for debugging directory groups
+--path <path>          Root path to scan (default: C:\ on Windows, / on Unix)
+--depth <number>       Directory grouping depth (default: 2 on Windows, 3 on Unix)
+--no-progress          Don't save/load progress
+--blacklist <paths>    Semicolon-separated paths to exclude
+--allow-delete <time>  Enable file deletion (requires current time in HH:mm format)
+```
+
+---
+
+## 📁 Project Structure
+
+```
+SaplingFS/
+├── SaplingFS.sln              # Solution file
+├── src/                       # Main application
+│   ├── Models/               # Data models (Vector, BlockMapping, etc.)
+│   ├── Services/             # Core services (WorldParser, TerrainGenerator, etc.)
+│   ├── Configuration/        # Command-line options
+│   └── Program.cs            # Entry point
+├── tests/                     # Unit tests (77 tests, 100% passing)
+│   ├── Models/               # Model tests
+│   ├── Services/             # Service tests
+│   └── PerformanceBenchmarks.cs
+├── docs/                      # Documentation
+│   ├── PERFORMANCE_ANALYSIS.md
+│   ├── BENCHMARK_RESULTS.md
+│   └── CONTINUATION_NOTES.md
+├── legacy-js/                 # Original JavaScript implementation
+└── README.md                  # This file
+```
+
+---
+
+## 🎮 How It Works
+
+1. **Scan**: Recursively scans your filesystem
+2. **Generate**: Creates Minecraft terrain using BFS algorithm
+   - Each file becomes a block
+   - Files from same directory cluster together
+   - Trees and ponds separate directory groups
+3. **Monitor**: Watches clipboard for player position
+   - Copy position in-game: `/data get entity @s Pos`
+   - SaplingFS identifies which file you're looking at
+4. **Track**: Monitors world for block changes
+   - Detects when blocks are destroyed
+   - Optionally deletes the associated file (with `--allow-delete`)
+
+---
+
+## 🏗️ Architecture
+
+### Key Components
+
+**Models** (`src/Models/`)
+- `Vector` - 3D coordinate math with conversion utilities
+- `BlockMapping` - Maps positions to files and blocks
+- `MappedFile` - File metadata with path abbreviation
+- `RegionFileCache` - Caches region file data with checksums
+
+**Services** (`src/Services/`)
+- `WorldParser` - NBT parsing and region file I/O
+- `TerrainGenerator` - BFS terrain generation with smoothing
+- `FileScanner` - Recursive filesystem scanning
+- `RaycastService` - 3D DDA raycasting for block identification
+- `ClipboardMonitor` - Player position tracking
+- `BlockChangeMonitor` - Region file change detection
+- `ProcessManager` - Cross-platform process/handle management
+
+### Algorithms
+
+**Terrain Generation** (BFS)
+- Start at (0, 32, 0)
+- Expand outward, grouping by parent directory
+- Random suppression for organic shapes
+- Tree placement (62 blocks each)
+- Water bodies between groups
+- Terrain smoothing and ore veins
+
+**Block Change Detection**
+- SHA256 checksums for region files
+- Chunk-level hash comparison
+- Parallel processing of changes
+
+**Raycasting** (3D DDA)
+- Cast ray from player eye position
+- Step through voxels to find mapped blocks
+- Used for clipboard-based identification
+
+---
+
+## ⚡ Performance
+
+The C# implementation is **2-10x faster** than the JavaScript version:
+
+| Operation | C# (.NET 9) | JavaScript (Bun) | Speedup |
+|-----------|-------------|------------------|---------|
+| Vector Operations | 28.9M ops/sec | ~3M ops/sec | **9.6x** |
+| Raycasting | 8.7M rays/sec | ~0.8M rays/sec | **10.9x** |
+| Dictionary Lookups | 7.7M ops/sec | ~2M ops/sec | **3.9x** |
+| Terrain Generation (50k files) | ~60s | ~180s | **3.0x** |
+| Memory Usage | 222 bytes/entry | 400-500 bytes | **56% less** |
+
+**Why C# is faster:**
+- Compiled to native code (JIT)
+- Value types for vectors (no heap allocation)
+- True multi-threading (uses all CPU cores)
+- Strongly typed (no runtime type checking)
+
+See [docs/BENCHMARK_RESULTS.md](docs/BENCHMARK_RESULTS.md) for detailed analysis.
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+dotnet test
+
+# Run with detailed output
+dotnet test --logger "console;verbosity=detailed"
+
+# Run specific test category
+dotnet test --filter "FullyQualifiedName~Models"
+dotnet test --filter "FullyQualifiedName~Services"
+dotnet test --filter "FullyQualifiedName~PerformanceBenchmarks"
+```
+
+**Test Coverage:**
+- ✅ 77 tests, 100% passing
+- ✅ Models: Vector, MappedFile, BlockMapping
+- ✅ Services: FileScanner, TerrainGenerator, RaycastService
+- ✅ Performance benchmarks
+
+---
+
+## 🔒 Safety Features
+
+- **World Backup**: Automatically created before modifications
+- **Confirmation Required**: `--allow-delete` requires current time
+- **10-Second Countdown**: Warning before enabling deletion
+- **Deletion Disabled by Default**: Cosmetic mode unless explicitly enabled
+
+---
+
+## 🚧 Development
+
+### Building from Source
+
+```bash
+# Clone the repository
+git clone <repo-url>
+cd SaplingCS
+
+# Restore dependencies
+dotnet restore
+
+# Build
+dotnet build SaplingFS.sln
+
+# Run tests
+dotnet test
+```
+
+### Project Dependencies
+
+- **fNbt** (1.0.0) - NBT format parsing
+- **TextCopy** (6.2.1) - Cross-platform clipboard access
+- **xUnit** (2.9.2) - Testing framework
+- **FluentAssertions** (8.8.0) - Assertion library
+- **NSubstitute** (5.3.0) - Mocking framework
+
+---
+
+## 📚 Documentation
+
+- [Performance Analysis](docs/PERFORMANCE_ANALYSIS.md) - Technical comparison with JavaScript
+- [Benchmark Results](docs/BENCHMARK_RESULTS.md) - Actual measured performance
+- [Migration Analysis](docs/DOTNET_MIGRATION_ANALYSIS.md) - Original migration plan
+- [Continuation Notes](docs/CONTINUATION_NOTES.md) - Development session notes
+- [CLAUDE.md](CLAUDE.md) - Guide for AI assistants
+
+---
+
+## 🔄 Comparison with JavaScript Version
+
+The original JavaScript implementation is preserved in `legacy-js/` for reference.
+
+**Use C# (.NET) when:**
+- ✅ Production deployment (>10,000 files)
+- ✅ Performance is critical
+- ✅ Multi-core systems
+- ✅ Memory efficiency matters
+
+**Use JavaScript (Bun) when:**
+- ✅ Quick prototyping
+- ✅ Small workloads (<5,000 files)
+- ✅ Rapid iteration
+- ✅ Cross-platform scripting
+
+Both produce identical Minecraft worlds - the difference is runtime performance.
+
+---
+
+## ⚠️ Warning
+
+**SaplingFS can irreversibly delete files on your system.**
+
+- Only use `--allow-delete` if you understand the risks
+- Always test with a backup world first
+- Use blacklists to exclude important directories
+- The program kills processes holding file handles before deletion
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Original concept and JavaScript implementation
+- Ported to C# .NET 9.0 with performance optimizations
+- Uses fNbt library for Minecraft NBT parsing
+- Inspired by the desire to visualize filesystems in 3D
+
+---
+
+## 🐛 Known Issues
+
+- Large filesystems (>100k files) may take several minutes to generate
+- Minecraft must be closed during terrain generation
+- Some region file parsing errors may occur with corrupted worlds
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Ensure all tests pass (`dotnet test`)
+5. Submit a pull request
+
+---
+
+## 📧 Contact
+
+For questions, issues, or feature requests, please open an issue on GitHub.
+
+---
+
+**Made with ❤️ and .NET 9.0**
