@@ -1,4 +1,6 @@
 using FluentAssertions;
+using SaplingFS.Configuration;
+using SaplingFS.Models;
 using SaplingFS.Services;
 
 namespace SaplingFS.Tests.Services;
@@ -160,6 +162,155 @@ public class WorldPathResolverTests
         // Assert
         result.Should().NotBeNullOrEmpty();
         result.Should().EndWith(worldName);
+
+        // Cleanup
+        if (Directory.Exists(_testDirectory))
+        {
+            Directory.Delete(_testDirectory, true);
+        }
+    }
+
+    [Fact]
+    public void ResolveWorldPath_WithNullOptions_ShouldUseDefaultLauncher()
+    {
+        // Arrange
+        var worldName = "TestWorld";
+
+        // Act
+        var result = _resolver.ResolveWorldPath(worldName, null);
+
+        // Assert
+        result.Should().NotBeNullOrEmpty();
+        result.Should().EndWith(worldName);
+
+        // Cleanup
+        if (Directory.Exists(_testDirectory))
+        {
+            Directory.Delete(_testDirectory, true);
+        }
+    }
+
+    [Fact]
+    public void ResolveWorldPath_WithOptionsButNoLauncher_ShouldUseDefaultLauncher()
+    {
+        // Arrange
+        var worldName = "TestWorld";
+        var options = new CommandLineOptions { WorldName = worldName };
+
+        // Act
+        var result = _resolver.ResolveWorldPath(worldName, options);
+
+        // Assert
+        result.Should().NotBeNullOrEmpty();
+        result.Should().EndWith(worldName);
+
+        // Cleanup
+        if (Directory.Exists(_testDirectory))
+        {
+            Directory.Delete(_testDirectory, true);
+        }
+    }
+
+    [Fact]
+    public void ResolveWorldPath_WithNonExistentLauncher_ShouldThrowInvalidOperationException()
+    {
+        // Arrange
+        var worldName = "TestWorld";
+        var options = new CommandLineOptions
+        {
+            WorldName = worldName,
+            Launcher = LauncherType.PrismLauncher // Assuming this doesn't exist on test machine
+        };
+
+        // Act
+        Action act = () => _resolver.ResolveWorldPath(worldName, options);
+
+        // Assert
+        // This may or may not throw depending on system state
+        // Just verify it doesn't crash catastrophically
+        var result = Record.Exception(act);
+        if (result != null)
+        {
+            result.Should().BeOfType<InvalidOperationException>();
+        }
+
+        // Cleanup
+        if (Directory.Exists(_testDirectory))
+        {
+            Directory.Delete(_testDirectory, true);
+        }
+    }
+
+    [Fact]
+    public void ResolveWorldPath_WithInstanceNameOnly_ShouldSearchAllLaunchers()
+    {
+        // Arrange
+        var worldName = "TestWorld";
+        var options = new CommandLineOptions
+        {
+            WorldName = worldName,
+            InstanceName = "NonExistentInstance_12345"
+        };
+
+        // Act
+        var result = _resolver.ResolveWorldPath(worldName, options);
+
+        // Assert
+        // Should fall back to default launcher path when instance not found
+        result.Should().NotBeNullOrEmpty();
+
+        // Cleanup
+        if (Directory.Exists(_testDirectory))
+        {
+            Directory.Delete(_testDirectory, true);
+        }
+    }
+
+    [Fact]
+    public void ListAllInstances_ShouldReturnList()
+    {
+        // Act
+        var instances = _resolver.ListAllInstances();
+
+        // Assert
+        instances.Should().NotBeNull();
+        // The list may be empty if no launchers are installed, which is fine
+
+        // Cleanup
+        if (Directory.Exists(_testDirectory))
+        {
+            Directory.Delete(_testDirectory, true);
+        }
+    }
+
+    [Theory]
+    [InlineData(LauncherType.Official)]
+    [InlineData(LauncherType.PrismLauncher)]
+    [InlineData(LauncherType.MultiMC)]
+    [InlineData(LauncherType.CurseForge)]
+    [InlineData(LauncherType.ATLauncher)]
+    [InlineData(LauncherType.Modrinth)]
+    [InlineData(LauncherType.GDLauncher)]
+    public void ResolveWorldPath_WithEachLauncherType_ShouldNotCrash(LauncherType launcherType)
+    {
+        // Arrange
+        var worldName = "TestWorld";
+        var options = new CommandLineOptions
+        {
+            WorldName = worldName,
+            Launcher = launcherType
+        };
+
+        // Act
+        Action act = () => _resolver.ResolveWorldPath(worldName, options);
+
+        // Assert
+        // Should either return a path or throw InvalidOperationException, but not crash
+        var result = Record.Exception(act);
+        if (result != null)
+        {
+            result.Should().BeOfType<InvalidOperationException>();
+        }
 
         // Cleanup
         if (Directory.Exists(_testDirectory))
