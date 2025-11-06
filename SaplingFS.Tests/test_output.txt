@@ -1,0 +1,789 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  SaplingFS -> /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS/bin/Debug/net9.0/SaplingFS.dll
+  SaplingFS.Tests -> /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/bin/Debug/net9.0/SaplingFS.Tests.dll
+Test run for /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/bin/Debug/net9.0/SaplingFS.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (arm64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+/Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/bin/Debug/net9.0/SaplingFS.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.10)
+[xUnit.net 00:00:00.02]   Discovering: SaplingFS.Tests
+[xUnit.net 00:00:00.04]   Discovered:  SaplingFS.Tests
+[xUnit.net 00:00:00.04]   Starting:    SaplingFS.Tests
+     Warning:
+     The component "Fluent Assertions" is governed by the rules defined in the Xceed License Agreement and
+     the Xceed Fluent Assertions Community License. You may use Fluent Assertions free of charge for
+     non-commercial use only. An active subscription is required to use Fluent Assertions for commercial use.
+     Please contact Xceed Sales mailto:sales@xceed.com to acquire a subscription at a very low cost.
+     A paid commercial license supports the development and continued increasing support of
+     Fluent Assertions users under both commercial and community licenses. Help us
+     keep Fluent Assertions at the forefront of unit testing.
+     For more information, visit https://xceed.com/products/unit-testing/fluent-assertions/
+  Passed SaplingFS.Tests.UnitTest1.Test1 [1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.FromAngles_LookingUp_ShouldHavePositiveY [6 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(direction: 5, expectedX: 0, expectedY: -1, expectedZ: 0) [< 1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(direction: 4, expectedX: 0, expectedY: 1, expectedZ: 0) [< 1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(direction: 1, expectedX: -1, expectedY: 0, expectedZ: 0) [< 1 ms]
+  Passed SaplingFS.Tests.Models.BlockMappingTests.Constructor_ShouldInitializeProperties [7 ms]
+  Passed SaplingFS.Tests.Services.FileScannerTests.BuildFileList_WithEmptyFiles_ShouldIgnoreThem [7 ms]
+  Passed SaplingFS.Tests.Models.BlockMappingTests.With_ShouldAllowModifyingPosition [< 1 ms]
+  Passed SaplingFS.Tests.Models.BlockMappingTests.Equality_SameValues_ShouldBeEqual [< 1 ms]
+  Passed SaplingFS.Tests.Models.BlockMappingTests.Equality_DifferentBlock_ShouldNotBeEqual [< 1 ms]
+  Passed SaplingFS.Tests.Models.BlockMappingTests.ToString_ShouldReturnFormattedString [< 1 ms]
+  Passed SaplingFS.Tests.Models.BlockMappingTests.With_ShouldAllowModifyingBlock [< 1 ms]
+  Passed SaplingFS.Tests.Services.FileScannerTests.BuildFileList_WithCacheInName_ShouldSkipDirectory [< 1 ms]
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.MappedFileTests.Equality_SamePathAndSize_ShouldBeEqual [FAIL]
+[xUnit.net 00:00:00.08]       Expected file1 to be /home/user/file.txt, but found /home/user/file.txt.
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.ObjectAssertions`2.Be(TSubject expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs(100,0): at SaplingFS.Tests.Models.MappedFileTests.Equality_SamePathAndSize_ShouldBeEqual()
+[xUnit.net 00:00:00.08]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(direction: 3, expectedX: 0, expectedY: 0, expectedZ: 1) [FAIL]
+[xUnit.net 00:00:00.08]       Expected shifted.Z to be 31, but found 29 (difference of -2).
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Numeric.NumericAssertionsBase`3.Be(T expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs(140,0): at SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(Int32 direction, Int32 expectedX, Int32 expectedY, Int32 expectedZ)
+[xUnit.net 00:00:00.08]            at InvokeStub_VectorTests.Shifted_ShouldMoveInCorrectDirection(Object, Span`1)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+Generating terrain...
+  Mapping "/test" to blocks
+  Passed SaplingFS.Tests.Models.BlockMappingTests.Immutability_ShouldNotAllowDirectModification [< 1 ms]
+  Passed SaplingFS.Tests.Services.FileScannerTests.BuildFileList_EmptyDirectory_ShouldReturnEmptyList [1 ms]
+  Passed SaplingFS.Tests.Services.FileScannerTests.BuildFileList_WithFiles_ShouldReturnFileList [3 ms]
+  Passed SaplingFS.Tests.Services.FileScannerTests.BuildFileList_WithBlacklist_ShouldSkipBlacklistedPaths [< 1 ms]
+  Passed SaplingFS.Tests.Services.FileScannerTests.BuildFileList_ShouldSetCorrectFileSize [< 1 ms]
+  Passed SaplingFS.Tests.Services.FileScannerTests.BuildFileList_WithNestedDirectories_ShouldScanRecursively [< 1 ms]
+  Failed SaplingFS.Tests.Models.MappedFileTests.Equality_SamePathAndSize_ShouldBeEqual [22 ms]
+  Error Message:
+   Expected file1 to be /home/user/file.txt, but found /home/user/file.txt.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.ObjectAssertions`2.Be(TSubject expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.MappedFileTests.Equality_SamePathAndSize_ShouldBeEqual() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs:line 100
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Failed SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(direction: 3, expectedX: 0, expectedY: 0, expectedZ: 1) [15 ms]
+  Error Message:
+   Expected shifted.Z to be 31, but found 29 (difference of -2).
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertionsBase`3.Be(T expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(Int32 direction, Int32 expectedX, Int32 expectedY, Int32 expectedZ) in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs:line 140
+   at InvokeStub_VectorTests.Shifted_ShouldMoveInCorrectDirection(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(direction: 2, expectedX: 0, expectedY: 0, expectedZ: -1) [FAIL]
+[xUnit.net 00:00:00.08]       Expected shifted.Z to be 29, but found 31 (difference of 2).
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Numeric.NumericAssertionsBase`3.Be(T expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs(140,0): at SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(Int32 direction, Int32 expectedX, Int32 expectedY, Int32 expectedZ)
+[xUnit.net 00:00:00.08]            at InvokeStub_VectorTests.Shifted_ShouldMoveInCorrectDirection(Object, Span`1)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.MappedFileTests.GetShortPath_FileInRoot_ShouldReturnFileName [FAIL]
+[xUnit.net 00:00:00.08]       Expected shortPath to be a match with the expectation, but it differs at index 0:
+[xUnit.net 00:00:00.08]          ↓ (actual)
+[xUnit.net 00:00:00.08]         "/file.txt"
+[xUnit.net 00:00:00.08]         "file.txt"
+[xUnit.net 00:00:00.08]          ↑ (expected)
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs(76,0): at SaplingFS.Tests.Models.MappedFileTests.GetShortPath_FileInRoot_ShouldReturnFileName()
+[xUnit.net 00:00:00.08]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.VectorTests.Relative_ShouldConvertAbsoluteToChunkRelative [FAIL]
+[xUnit.net 00:00:00.08]       Expected relative.Y to be 10, but found 74 (difference of 64).
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Numeric.NumericAssertionsBase`3.Be(T expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs(186,0): at SaplingFS.Tests.Models.VectorTests.Relative_ShouldConvertAbsoluteToChunkRelative()
+[xUnit.net 00:00:00.08]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(path: "C:\\Users\\John\\Documents\\file.txt", depth: 2, expected: "C:\\Users\\John/.../file.txt") [FAIL]
+[xUnit.net 00:00:00.08]       Expected shortPath to be a match with the expectation, but it differs at index 0:
+[xUnit.net 00:00:00.08]          ↓ (actual)
+[xUnit.net 00:00:00.08]         "/Users/lodorestiffler/.../C:\Users\John\Documents\file.txt"
+[xUnit.net 00:00:00.08]         "C:\Users\John/.../file.txt"
+[xUnit.net 00:00:00.08]          ↑ (expected)
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs(63,0): at SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(String path, Int32 depth, String expected)
+[xUnit.net 00:00:00.08]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(path: "/home/user/documents/file.txt", depth: 2, expected: "/home/user/.../file.txt") [FAIL]
+[xUnit.net 00:00:00.08]       Expected shortPath to be a match with the expectation, but it differs at index 11:
+[xUnit.net 00:00:00.08]                     ↓ (actual)
+[xUnit.net 00:00:00.08]         "…home/user/file.txt"
+[xUnit.net 00:00:00.08]         "…home/user/.../file.txt"
+[xUnit.net 00:00:00.08]                     ↑ (expected)
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs(63,0): at SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(String path, Int32 depth, String expected)
+[xUnit.net 00:00:00.08]            at InvokeStub_MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(Object, Span`1)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Passed SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(direction: 0, expectedX: 1, expectedY: 0, expectedZ: 0) [< 1 ms]
+  Failed SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(direction: 2, expectedX: 0, expectedY: 0, expectedZ: -1) [< 1 ms]
+  Error Message:
+   Expected shifted.Z to be 29, but found 31 (difference of 2).
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertionsBase`3.Be(T expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.VectorTests.Shifted_ShouldMoveInCorrectDirection(Int32 direction, Int32 expectedX, Int32 expectedY, Int32 expectedZ) in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs:line 140
+   at InvokeStub_VectorTests.Shifted_ShouldMoveInCorrectDirection(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Failed SaplingFS.Tests.Models.MappedFileTests.GetShortPath_FileInRoot_ShouldReturnFileName [< 1 ms]
+  Error Message:
+   Expected shortPath to be a match with the expectation, but it differs at index 0:
+   ↓ (actual)
+  "/file.txt"
+  "file.txt"
+   ↑ (expected)
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+   at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+   at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+   at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.MappedFileTests.GetShortPath_FileInRoot_ShouldReturnFileName() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs:line 76
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Failed SaplingFS.Tests.Models.VectorTests.Relative_ShouldConvertAbsoluteToChunkRelative [< 1 ms]
+  Error Message:
+   Expected relative.Y to be 10, but found 74 (difference of 64).
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertionsBase`3.Be(T expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.VectorTests.Relative_ShouldConvertAbsoluteToChunkRelative() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs:line 186
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Failed SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(path: "C:\\Users\\John\\Documents\\file.txt", depth: 2, expected: "C:\\Users\\John/.../file.txt") [< 1 ms]
+  Error Message:
+   Expected shortPath to be a match with the expectation, but it differs at index 0:
+   ↓ (actual)
+  "/Users/lodorestiffler/.../C:\Users\John\Documents\file.txt"
+  "C:\Users\John/.../file.txt"
+   ↑ (expected)
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+   at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+   at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+   at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(String path, Int32 depth, String expected) in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs:line 63
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+  Passed SaplingFS.Tests.Models.VectorTests.With_ShouldAllowModifyingIndividualComponents [< 1 ms]
+  Failed SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(path: "/home/user/documents/file.txt", depth: 2, expected: "/home/user/.../file.txt") [< 1 ms]
+  Error Message:
+   Expected shortPath to be a match with the expectation, but it differs at index 11:
+              ↓ (actual)
+  "…home/user/file.txt"
+  "…home/user/.../file.txt"
+              ↑ (expected)
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+   at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+   at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+   at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(String path, Int32 depth, String expected) in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs:line 63
+   at InvokeStub_MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Passed SaplingFS.Tests.Models.VectorTests.Equality_SameValues_ShouldBeEqual [< 1 ms]
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(path: "/var/log/system.log", depth: 1, expected: "/var/.../system.log") [FAIL]
+[xUnit.net 00:00:00.08]       Expected shortPath to be a match with the expectation, but it differs at index 5:
+[xUnit.net 00:00:00.08]               ↓ (actual)
+[xUnit.net 00:00:00.08]         "/var/system.log"
+[xUnit.net 00:00:00.08]         "/var/.../system.log"
+[xUnit.net 00:00:00.08]               ↑ (expected)
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs(63,0): at SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(String path, Int32 depth, String expected)
+[xUnit.net 00:00:00.08]            at InvokeStub_MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(Object, Span`1)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(path: "C:\\Users\\John\\Documents\\file.txt", depth: 2, expected: "C:\\Users\\John") [FAIL]
+[xUnit.net 00:00:00.08]       Expected parent to be a match with the expectation, but it differs at index 0:
+[xUnit.net 00:00:00.08]          ↓ (actual)
+[xUnit.net 00:00:00.08]         "/Users/lodorestiffler"
+[xUnit.net 00:00:00.08]         "C:\Users\John"
+[xUnit.net 00:00:00.08]          ↑ (expected)
+[xUnit.net 00:00:00.08]       Stack Trace:
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+[xUnit.net 00:00:00.08]            at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.08]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs(34,0): at SaplingFS.Tests.Models.MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(String path, Int32 depth, String expected)
+[xUnit.net 00:00:00.08]            at InvokeStub_MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(Object, Span`1)
+[xUnit.net 00:00:00.08]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Failed SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(path: "/var/log/system.log", depth: 1, expected: "/var/.../system.log") [< 1 ms]
+  Error Message:
+   Expected shortPath to be a match with the expectation, but it differs at index 5:
+        ↓ (actual)
+  "/var/system.log"
+  "/var/.../system.log"
+        ↑ (expected)
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+   at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+   at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+   at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(String path, Int32 depth, String expected) in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs:line 63
+   at InvokeStub_MappedFileTests.GetShortPath_ShouldReturnAbbreviatedPath(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Passed SaplingFS.Tests.Models.VectorTests.Add_WithIndividualValues_ShouldReturnNewVector [< 1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.ToString_ShouldReturnCommaSeparatedCoordinates [< 1 ms]
+  Passed SaplingFS.Tests.Models.MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(path: "/home/user/documents/file.txt", depth: 2, expected: "/home/user") [< 1 ms]
+  Passed SaplingFS.Tests.Models.MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(path: "/var/log/system.log", depth: 1, expected: "/var") [< 1 ms]
+  Passed SaplingFS.Tests.Models.MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(path: "/file.txt", depth: 0, expected: "") [< 1 ms]
+  Failed SaplingFS.Tests.Models.MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(path: "C:\\Users\\John\\Documents\\file.txt", depth: 2, expected: "C:\\Users\\John") [< 1 ms]
+  Error Message:
+   Expected parent to be a match with the expectation, but it differs at index 0:
+   ↓ (actual)
+  "/Users/lodorestiffler"
+  "C:\Users\John"
+   ↑ (expected)
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message)
+   at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+   at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+   at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(String path, Int32 depth, String expected) in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs:line 34
+   at InvokeStub_MappedFileTests.GetShortParent_ShouldReturnCorrectParentPath(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Passed SaplingFS.Tests.Models.VectorTests.Equality_DifferentValues_ShouldNotBeEqual [< 1 ms]
+[xUnit.net 00:00:00.08]     SaplingFS.Tests.Models.MappedFileTests.ToString_ShouldReturnPathAndSize [FAIL]
+[xUnit.net 00:00:00.08]       Expected str to be "/home/user/file.txt (2048 bytes)" with a length of 32, but "/home/user/file.txt" has a length of 19, differs near "t" (index 18).
+[xUnit.net 00:00:00.09]       Stack Trace:
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Primitives.StringEqualityStrategy.ValidateAgainstLengthDifferences(AssertionChain assertion, String subject, String expected)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.09]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs(89,0): at SaplingFS.Tests.Models.MappedFileTests.ToString_ShouldReturnPathAndSize()
+[xUnit.net 00:00:00.09]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.09]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.09]     SaplingFS.Tests.Models.VectorTests.Shifted_InvalidDirection_ShouldReturnOriginalVector [FAIL]
+[xUnit.net 00:00:00.09]       System.IndexOutOfRangeException : Index was outside the bounds of the array.
+[xUnit.net 00:00:00.09]       Stack Trace:
+[xUnit.net 00:00:00.09]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS/Models/Vector.cs(60,0): at SaplingFS.Models.Vector.Shifted(Int32 direction)
+[xUnit.net 00:00:00.09]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs(150,0): at SaplingFS.Tests.Models.VectorTests.Shifted_InvalidDirection_ShouldReturnOriginalVector()
+[xUnit.net 00:00:00.09]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.09]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Building data for chunk (0 0)
+  Passed SaplingFS.Tests.Models.MappedFileTests.Constructor_ShouldInitializeProperties [< 1 ms]
+  Failed SaplingFS.Tests.Models.MappedFileTests.ToString_ShouldReturnPathAndSize [3 ms]
+  Error Message:
+   Expected str to be "/home/user/file.txt (2048 bytes)" with a length of 32, but "/home/user/file.txt" has a length of 19, differs near "t" (index 18).
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Primitives.StringEqualityStrategy.ValidateAgainstLengthDifferences(AssertionChain assertion, String subject, String expected)
+   at FluentAssertions.Primitives.StringEqualityStrategy.AssertForEquality(AssertionChain assertionChain, String subject, String expected)
+   at FluentAssertions.Primitives.StringValidator.Validate(String subject, String expected)
+   at FluentAssertions.Primitives.StringAssertions`1.Be(String expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.MappedFileTests.ToString_ShouldReturnPathAndSize() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/MappedFileTests.cs:line 89
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed SaplingFS.Tests.Models.MappedFileTests.Equality_DifferentPath_ShouldNotBeEqual [< 1 ms]
+  Passed SaplingFS.Tests.Models.MappedFileTests.GetShortParent_DepthGreaterThanActual_ShouldReturnFullParent [< 1 ms]
+  Failed SaplingFS.Tests.Models.VectorTests.Shifted_InvalidDirection_ShouldReturnOriginalVector [< 1 ms]
+  Error Message:
+   System.IndexOutOfRangeException : Index was outside the bounds of the array.
+  Stack Trace:
+     at SaplingFS.Models.Vector.Shifted(Int32 direction) in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS/Models/Vector.cs:line 60
+   at SaplingFS.Tests.Models.VectorTests.Shifted_InvalidDirection_ShouldReturnOriginalVector() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs:line 150
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed SaplingFS.Tests.Models.MappedFileTests.Immutability_OriginalShouldNotChangeWhenCreatingNewInstance [< 1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.ToArray_ShouldReturnArrayOfCoordinates [1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.FromAngles_ShouldCalculateForwardVector [3 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.FromAngles_LookingDown_ShouldHaveNegativeY [< 1 ms]
+[xUnit.net 00:00:00.09]     SaplingFS.Tests.Models.VectorTests.Absolute_ShouldConvertChunkRelativeToAbsolute [FAIL]
+[xUnit.net 00:00:00.09]       Expected absolute.Y to be 10, but found -54 (difference of -64).
+[xUnit.net 00:00:00.09]       Stack Trace:
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Numeric.NumericAssertionsBase`3.Be(T expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.09]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs(169,0): at SaplingFS.Tests.Models.VectorTests.Absolute_ShouldConvertChunkRelativeToAbsolute()
+[xUnit.net 00:00:00.09]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.09]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.09]     SaplingFS.Tests.Models.VectorTests.Normalize_ShouldReturnUnitVector [FAIL]
+[xUnit.net 00:00:00.09]       Expected normalized.Length() to approximate 1.0 +/- 0.0001, but 0.0 differed by 1.0.
+[xUnit.net 00:00:00.09]       Stack Trace:
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.09]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+[xUnit.net 00:00:00.09]            at FluentAssertions.NumericAssertionsExtensions.FailIfDifferenceOutsidePrecision[T](Boolean differenceWithinPrecision, NumericAssertions`1 parent, T expectedValue, T precision, T actualDifference, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.09]            at FluentAssertions.NumericAssertionsExtensions.BeApproximately(NumericAssertions`1 parent, Double expectedValue, Double precision, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.09]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs(103,0): at SaplingFS.Tests.Models.VectorTests.Normalize_ShouldReturnUnitVector()
+[xUnit.net 00:00:00.09]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.09]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed SaplingFS.Tests.Models.VectorTests.Sub_ShouldReturnNewVectorWithSubtractedCoordinates [< 1 ms]
+  Failed SaplingFS.Tests.Models.VectorTests.Absolute_ShouldConvertChunkRelativeToAbsolute [1 ms]
+  Error Message:
+   Expected absolute.Y to be 10, but found -54 (difference of -64).
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertionsBase`3.Be(T expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.VectorTests.Absolute_ShouldConvertChunkRelativeToAbsolute() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs:line 169
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed SaplingFS.Tests.Models.VectorTests.Constructor_ShouldInitializeCoordinates [< 1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.Normalize_ZeroVector_ShouldReturnZeroVector [< 1 ms]
+  Failed SaplingFS.Tests.Models.VectorTests.Normalize_ShouldReturnUnitVector [< 1 ms]
+  Error Message:
+   Expected normalized.Length() to approximate 1.0 +/- 0.0001, but 0.0 differed by 1.0.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.NumericAssertionsExtensions.FailIfDifferenceOutsidePrecision[T](Boolean differenceWithinPrecision, NumericAssertions`1 parent, T expectedValue, T precision, T actualDifference, String because, Object[] becauseArgs)
+   at FluentAssertions.NumericAssertionsExtensions.BeApproximately(NumericAssertions`1 parent, Double expectedValue, Double precision, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Models.VectorTests.Normalize_ShouldReturnUnitVector() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Models/VectorTests.cs:line 103
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed SaplingFS.Tests.Models.VectorTests.Length_ShouldCalculateCorrectMagnitude [< 1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.GetHashCode_SameValues_ShouldHaveSameHash [< 1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.DefaultConstructor_ShouldInitializeToZero [< 1 ms]
+  Passed SaplingFS.Tests.Models.VectorTests.AbsoluteAndRelative_ShouldBeInverse [< 1 ms]
+Terrain generation complete!
+[xUnit.net 00:00:00.10]     SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_ShouldUpdateTerrainBounds [FAIL]
+[xUnit.net 00:00:00.10]       Did not expect bounds.Min to be equal to SaplingFS.Models.Vector
+[xUnit.net 00:00:00.10]       {
+[xUnit.net 00:00:00.10]           X = 0,
+[xUnit.net 00:00:00.10]           Y = 0,
+[xUnit.net 00:00:00.10]           Z = 0
+[xUnit.net 00:00:00.10]       }.
+[xUnit.net 00:00:00.10]       Stack Trace:
+[xUnit.net 00:00:00.10]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.10]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.10]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.10]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.10]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.10]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+[xUnit.net 00:00:00.10]            at FluentAssertions.Primitives.ObjectAssertions`2.NotBe(TSubject unexpected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.10]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Services/TerrainGeneratorTests.cs(196,0): at SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_ShouldUpdateTerrainBounds()
+[xUnit.net 00:00:00.10]         --- End of stack trace from previous location ---
+Generating terrain...
+  Mapping "/test" to blocks
+  Building data for chunk (-1 0)
+  Building data for chunk (0 0)
+  Building data for chunk (-1 -1)
+  Building data for chunk (0 -1)
+Terrain generation complete!
+[xUnit.net 00:00:00.13]     SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_WithManyFiles_ShouldCreateContiguousTerrain [FAIL]
+[xUnit.net 00:00:00.13]       Expected generator.Mapping to contain 10 item(s), but found 11: {["-2,32,0"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file7.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = -2,
+[xUnit.net 00:00:00.13]                   Y = 32,
+[xUnit.net 00:00:00.13]                   Z = 0
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["1,33,0"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "short_grass",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file6.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = 1,
+[xUnit.net 00:00:00.13]                   Y = 33,
+[xUnit.net 00:00:00.13]                   Z = 0
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["1,32,0"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file1.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = 1,
+[xUnit.net 00:00:00.13]                   Y = 32,
+[xUnit.net 00:00:00.13]                   Z = 0
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["0,32,0"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file0.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = 0,
+[xUnit.net 00:00:00.13]                   Y = 32,
+[xUnit.net 00:00:00.13]                   Z = 0
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["0,32,2"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file9.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = 0,
+[xUnit.net 00:00:00.13]                   Y = 32,
+[xUnit.net 00:00:00.13]                   Z = 2
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["-1,32,-1"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file8.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = -1,
+[xUnit.net 00:00:00.13]                   Y = 32,
+[xUnit.net 00:00:00.13]                   Z = -1
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["1,32,1"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file4.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = 1,
+Generating terrain...
+[xUnit.net 00:00:00.13]                   Y = 32,
+  Mapping "/test" to blocks
+[xUnit.net 00:00:00.13]                   Z = 1
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["0,32,1"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file3.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = 0,
+[xUnit.net 00:00:00.13]                   Y = 32,
+[xUnit.net 00:00:00.13]                   Z = 1
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["0,32,-1"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file5.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = 0,
+[xUnit.net 00:00:00.13]                   Y = 32,
+[xUnit.net 00:00:00.13]                   Z = -1
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]           }, ["-1,32,0"] = SaplingFS.Models.BlockMapping
+[xUnit.net 00:00:00.13]           {
+[xUnit.net 00:00:00.13]               Block = "grass_block",
+[xUnit.net 00:00:00.13]               FilePath = "/test/file2.txt",
+[xUnit.net 00:00:00.13]               Position = SaplingFS.Models.Vector
+[xUnit.net 00:00:00.13]               {
+[xUnit.net 00:00:00.13]                   X = -1,
+[xUnit.net 00:00:00.13]                   Y = 32,
+[xUnit.net 00:00:00.13]                   Z = 0
+[xUnit.net 00:00:00.13]               }
+[xUnit.net 00:00:00.13]       
+[xUnit.net 00:00:00.13]       
+[xUnit.net 00:00:00.13]       (Output has exceeded the maximum of 100 lines. Increase FormattingOptions.MaxLines on AssertionScope or AssertionConfiguration to include more lines.).
+[xUnit.net 00:00:00.13]       Stack Trace:
+[xUnit.net 00:00:00.13]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+[xUnit.net 00:00:00.13]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+[xUnit.net 00:00:00.13]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+[xUnit.net 00:00:00.13]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.13]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+[xUnit.net 00:00:00.13]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+[xUnit.net 00:00:00.13]            at FluentAssertions.Collections.GenericCollectionAssertions`3.HaveCount(Int32 expected, String because, Object[] becauseArgs)
+[xUnit.net 00:00:00.13]         /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Services/TerrainGeneratorTests.cs(225,0): at SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_WithManyFiles_ShouldCreateContiguousTerrain()
+[xUnit.net 00:00:00.13]         --- End of stack trace from previous location ---
+  Building data for chunk (0 0)
+  Building data for chunk (0 -1)
+  Building data for chunk (-1 0)
+Terrain generation complete!
+Generating terrain...
+  Mapping "/home/user1" to blocks
+  Mapping "/home/user2" to blocks
+  Building data for chunk (0 0)
+  Building data for chunk (-1 0)
+Terrain generation complete!
+Generating terrain...
+  Mapping "/home/user" to blocks
+  Building data for chunk (0 0)
+  Building data for chunk (-1 0)
+Terrain generation complete!
+Generating terrain...
+  Mapping "/test" to blocks
+  Building data for chunk (0 0)
+Terrain generation complete!
+Generating terrain...
+Terrain generation complete!
+Generating terrain...
+  Mapping "/test" to blocks
+  Building data for chunk (0 0)
+  Passed SaplingFS.Tests.Models.VectorTests.Add_ShouldReturnNewVectorWithAddedCoordinates [< 1 ms]
+  Failed SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_ShouldUpdateTerrainBounds [46 ms]
+  Error Message:
+   Did not expect bounds.Min to be equal to SaplingFS.Models.Vector
+{
+    X = 0,
+    Y = 0,
+    Z = 0
+}.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.ObjectAssertions`2.NotBe(TSubject unexpected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_ShouldUpdateTerrainBounds() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Services/TerrainGeneratorTests.cs:line 196
+--- End of stack trace from previous location ---
+  Failed SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_WithManyFiles_ShouldCreateContiguousTerrain [24 ms]
+  Error Message:
+   Expected generator.Mapping to contain 10 item(s), but found 11: {["-2,32,0"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file7.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = -2,
+            Y = 32,
+            Z = 0
+        }
+    }, ["1,33,0"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "short_grass",
+        FilePath = "/test/file6.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = 1,
+            Y = 33,
+            Z = 0
+        }
+    }, ["1,32,0"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file1.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = 1,
+            Y = 32,
+            Z = 0
+        }
+    }, ["0,32,0"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file0.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = 0,
+            Y = 32,
+            Z = 0
+        }
+    }, ["0,32,2"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file9.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = 0,
+            Y = 32,
+            Z = 2
+        }
+    }, ["-1,32,-1"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file8.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = -1,
+            Y = 32,
+            Z = -1
+        }
+    }, ["1,32,1"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file4.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = 1,
+            Y = 32,
+            Z = 1
+        }
+    }, ["0,32,1"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file3.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = 0,
+            Y = 32,
+            Z = 1
+        }
+    }, ["0,32,-1"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file5.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = 0,
+            Y = 32,
+            Z = -1
+        }
+    }, ["-1,32,0"] = SaplingFS.Models.BlockMapping
+    {
+        Block = "grass_block",
+        FilePath = "/test/file2.txt",
+        Position = SaplingFS.Models.Vector
+        {
+            X = -1,
+            Y = 32,
+            Z = 0
+        }
+
+
+(Output has exceeded the maximum of 100 lines. Increase FormattingOptions.MaxLines on AssertionScope or AssertionConfiguration to include more lines.).
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Collections.GenericCollectionAssertions`3.HaveCount(Int32 expected, String because, Object[] becauseArgs)
+   at SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_WithManyFiles_ShouldCreateContiguousTerrain() in /Users/lodorestiffler/Documents/Projects/codex/SaplingCS/SaplingFS.Tests/Services/TerrainGeneratorTests.cs:line 225
+--- End of stack trace from previous location ---
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_BlockPositions_ShouldBeWithinWorldBounds [24 ms]
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.TerrainBounds_InitialState_ShouldBeZero [< 1 ms]
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_MultipleFilesFromDifferentParents_ShouldCreateSeparateGroups [26 ms]
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_MultipleFilesFromSameParent_ShouldGroupTogether [19 ms]
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_WithSingleFile_ShouldCreateMapping [11 ms]
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.Mapping_ShouldBeReadOnly [< 1 ms]
+Terrain generation complete!
+[xUnit.net 00:00:00.24]   Finished:    SaplingFS.Tests
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_WithEmptyFileList_ShouldNotCrash [3 ms]
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.BuildRegionDataAsync_DebugMode_ShouldUseDebugPalette [17 ms]
+  Passed SaplingFS.Tests.Services.TerrainGeneratorTests.Constructor_ShouldInitializeWithEmptyMapping [2 ms]
+
+Test Run Failed.
+Total tests: 67
+     Passed: 52
+     Failed: 15
+ Total time: 0.4454 Seconds
