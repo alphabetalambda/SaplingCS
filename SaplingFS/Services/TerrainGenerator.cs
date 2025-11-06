@@ -41,6 +41,42 @@ public class TerrainGenerator
     public (Vector Min, Vector Max) TerrainBounds => (_terrainBoundsMin, _terrainBoundsMax);
 
     /// <summary>
+    /// Removes a mapping entry from the dictionary.
+    /// </summary>
+    /// <param name="position">Position of the block to remove</param>
+    public void RemoveMapping(Vector position)
+    {
+        string key = position.ToString();
+        _mapping.TryRemove(key, out _);
+    }
+
+    /// <summary>
+    /// Adds a mapping entry to the dictionary.
+    /// </summary>
+    /// <param name="mapping">The mapping to add</param>
+    public void AddMapping(BlockMapping mapping)
+    {
+        string key = mapping.Position.ToString();
+        _mapping[key] = mapping;
+    }
+
+    /// <summary>
+    /// Updates the terrain bounds to include a new position.
+    /// </summary>
+    /// <param name="position">Position to include in bounds</param>
+    public void UpdateTerrainBounds(Vector position)
+    {
+        if (position.X < _terrainBoundsMin.X) _terrainBoundsMin = _terrainBoundsMin with { X = position.X };
+        else if (position.X > _terrainBoundsMax.X) _terrainBoundsMax = _terrainBoundsMax with { X = position.X };
+
+        if (position.Y < _terrainBoundsMin.Y) _terrainBoundsMin = _terrainBoundsMin with { Y = position.Y };
+        else if (position.Y > _terrainBoundsMax.Y) _terrainBoundsMax = _terrainBoundsMax with { Y = position.Y };
+
+        if (position.Z < _terrainBoundsMin.Z) _terrainBoundsMin = _terrainBoundsMin with { Z = position.Z };
+        else if (position.Z > _terrainBoundsMax.Z) _terrainBoundsMax = _terrainBoundsMax with { Z = position.Z };
+    }
+
+    /// <summary>
     /// Checks if a block is natural ground terrain.
     /// </summary>
     private static bool IsGroundBlock(string? block) =>
@@ -538,7 +574,7 @@ public class TerrainGenerator
     /// <summary>
     /// Iterates over all chunks with mapped blocks.
     /// </summary>
-    private async Task ForMappedChunksAsync(
+    public async Task ForMappedChunksAsync(
         Func<string[][][], List<BlockMapping>, int, int, (Vector Min, Vector Max), Task> callback)
     {
         var processedChunks = new HashSet<(int, int)>();
@@ -547,6 +583,71 @@ public class TerrainGenerator
         {
             int chunkX = (int)Math.Floor(entry.Position.X / 16.0);
             int chunkZ = (int)Math.Floor(entry.Position.Z / 16.0);
+
+            if (processedChunks.Contains((chunkX, chunkZ)))
+                continue;
+
+            processedChunks.Add((chunkX, chunkZ));
+
+            // Create empty block array
+            var blocks = new string[16][][];
+            for (int x = 0; x < 16; x++)
+            {
+                blocks[x] = new string[384][];
+                for (int y = 0; y < 384; y++)
+                {
+                    blocks[x][y] = new string[16];
+                    for (int z = 0; z < 16; z++)
+                    {
+                        blocks[x][y][z] = "air";
+                    }
+                }
+            }
+
+            // Get all entries in this chunk
+            var entries = _mapping.Values
+                .Where(e =>
+                {
+                    int ex = (int)Math.Floor(e.Position.X / 16.0);
+                    int ez = (int)Math.Floor(e.Position.Z / 16.0);
+                    return ex == chunkX && ez == chunkZ;
+                })
+                .ToList();
+
+            var bounds = (
+                new Vector(chunkX * 16, -64, chunkZ * 16),
+                new Vector(chunkX * 16 + 16, 320, chunkZ * 16 + 16)
+            );
+
+            await callback(blocks, entries, chunkX, chunkZ, bounds);
+        }
+    }
+
+    /// <summary>
+    /// Iterates over all chunks with mapped blocks in a specific region.
+    /// </summary>
+    public async Task ForMappedChunksAsync(
+        Func<string[][][], List<BlockMapping>, int, int, (Vector Min, Vector Max), Task> callback,
+        int regionX,
+        int regionZ)
+    {
+        var processedChunks = new HashSet<(int, int)>();
+
+        // Only process chunks within this region
+        int minChunkX = regionX * 32;
+        int maxChunkX = regionX * 32 + 32;
+        int minChunkZ = regionZ * 32;
+        int maxChunkZ = regionZ * 32 + 32;
+
+        foreach (var entry in _mapping.Values)
+        {
+            int chunkX = (int)Math.Floor(entry.Position.X / 16.0);
+            int chunkZ = (int)Math.Floor(entry.Position.Z / 16.0);
+
+            // Skip if not in this region
+            if (chunkX < minChunkX || chunkX >= maxChunkX ||
+                chunkZ < minChunkZ || chunkZ >= maxChunkZ)
+                continue;
 
             if (processedChunks.Contains((chunkX, chunkZ)))
                 continue;
