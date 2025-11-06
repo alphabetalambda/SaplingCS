@@ -6,7 +6,8 @@ Maps every file on your computer to a block in a Minecraft world. Breaking block
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![.NET Version](https://img.shields.io/badge/.NET-9.0-purple)
-![Tests](https://img.shields.io/badge/tests-106%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-177%20passing-brightgreen)
+![Launchers](https://img.shields.io/badge/launchers-7%20supported-orange)
 
 ---
 
@@ -133,8 +134,42 @@ dotnet publish src/SaplingFS.csproj -c Release -r osx-arm64 -p:PublishSingleFile
 --depth <number>       Directory grouping depth (default: 2 on Windows, 3 on Unix)
 --no-progress          Don't save/load progress
 --blacklist <paths>    Semicolon-separated paths to exclude
+--launcher <name>      Minecraft launcher: Official, PrismLauncher, MultiMC, CurseForge,
+                       ATLauncher, Modrinth, or GDLauncher
+--instance <name>      Launcher instance name (for multi-instance launchers)
 --allow-delete <time>  Enable file deletion (requires current time in HH:mm format)
 ```
+
+### 🎮 Third-Party Launcher Support
+
+SaplingFS supports multiple Minecraft launchers across Windows, macOS, and Linux:
+
+- **Official Launcher** - Standard Minecraft launcher
+- **Prism Launcher** - Popular open-source launcher (MultiMC fork)
+- **MultiMC** - Classic multi-instance launcher
+- **CurseForge** - Mod-focused launcher
+- **ATLauncher** - Modpack launcher
+- **Modrinth** - Modern launcher with mod management
+- **GDLauncher** - Feature-rich launcher
+
+#### Examples
+
+```bash
+# Use Prism Launcher
+./SaplingFS MyWorld --launcher PrismLauncher --path ~/Documents --debug
+
+# Use specific modpack instance
+./SaplingFS MyWorld --launcher CurseForge --instance "All the Mods 9" --path ~/Downloads
+
+# Auto-detect instance by name across all launchers
+./SaplingFS MyWorld --instance "Vanilla 1.20" --path ~/Documents
+```
+
+**See [THIRD_PARTY_LAUNCHERS.md](THIRD_PARTY_LAUNCHERS.md) for complete documentation**, including:
+- Full path locations for each launcher on each platform
+- Interactive instance selection
+- Flatpak and Snap support
+- Troubleshooting guide
 
 ---
 
@@ -148,9 +183,10 @@ SaplingFS/
 │   ├── Services/             # Core services (WorldParser, TerrainGenerator, etc.)
 │   ├── Configuration/        # Command-line options
 │   └── Program.cs            # Entry point
-├── tests/                     # Unit tests (106 tests, 100% passing)
+├── tests/                     # Unit tests (177 tests, 100% passing)
 │   ├── Models/               # Model tests
 │   ├── Services/             # Service tests
+│   ├── Configuration/        # Configuration tests
 │   └── PerformanceBenchmarks.cs
 ├── docs/                      # Documentation
 │   ├── PERFORMANCE_ANALYSIS.md
@@ -187,6 +223,8 @@ SaplingFS/
 - `BlockMapping` - Maps positions to files and blocks
 - `MappedFile` - File metadata with path abbreviation
 - `RegionFileCache` - Caches region file data with checksums
+- `LauncherType` - Enum for supported Minecraft launchers
+- `MinecraftInstance` - Represents a launcher instance
 
 **Services** (`src/Services/`)
 - `WorldParser` - NBT parsing and region file I/O
@@ -197,6 +235,9 @@ SaplingFS/
 - `BlockChangeMonitor` - Region file change detection
 - `ProcessManager` - Cross-platform process/handle management
 - `StatusDisplay` - Real-time progress tracking with ETA calculations
+- `LauncherDetector` - Auto-discovers Minecraft launchers and instances
+- `InstanceSelector` - Interactive instance selection UI
+- `WorldPathResolver` - Resolves world paths across launchers
 
 ### Algorithms
 
@@ -258,9 +299,10 @@ dotnet test --filter "FullyQualifiedName~PerformanceBenchmarks"
 ```
 
 **Test Coverage:**
-- ✅ 106 tests, 100% passing
-- ✅ Models: Vector, MappedFile, BlockMapping
-- ✅ Services: FileScanner, TerrainGenerator, RaycastService, StatusDisplay
+- ✅ 177 tests, 100% passing
+- ✅ Models: Vector, MappedFile, BlockMapping, MinecraftInstance
+- ✅ Services: FileScanner, TerrainGenerator, RaycastService, StatusDisplay, LauncherDetector, InstanceSelector
+- ✅ Configuration: CommandLineOptions parsing
 - ✅ Performance benchmarks
 
 ---
@@ -305,6 +347,7 @@ dotnet test
 
 ## 📚 Documentation
 
+- [Third-Party Launchers](THIRD_PARTY_LAUNCHERS.md) - Complete launcher support guide
 - [Performance Analysis](docs/PERFORMANCE_ANALYSIS.md) - Technical comparison with JavaScript
 - [Benchmark Results](docs/BENCHMARK_RESULTS.md) - Actual measured performance
 - [macOS File Access Guide](docs/MACOS_FILE_ACCESS.md) - Handling system permissions on macOS
