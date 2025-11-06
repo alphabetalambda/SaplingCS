@@ -12,11 +12,15 @@ public class FileScanner
     /// </summary>
     /// <param name="startPath">Directory from which to begin recursing</param>
     /// <param name="blacklist">List of paths to omit from the scan</param>
+    /// <param name="progressCallback">Optional callback invoked with file count updates</param>
     /// <returns>List of mapped files</returns>
-    public List<MappedFile> BuildFileList(string startPath, List<string> blacklist)
+    public List<MappedFile> BuildFileList(
+        string startPath,
+        List<string> blacklist,
+        Action<int>? progressCallback = null)
     {
         var list = new List<MappedFile>();
-        BuildFileListRecursive(startPath, blacklist, list, depth: 0);
+        BuildFileListRecursive(startPath, blacklist, list, depth: 0, progressCallback);
         return list;
     }
 
@@ -24,7 +28,8 @@ public class FileScanner
         string startPath,
         List<string> blacklist,
         List<MappedFile> list,
-        int depth)
+        int depth,
+        Action<int>? progressCallback = null)
     {
         try
         {
@@ -42,7 +47,7 @@ public class FileScanner
                 if (blacklist.Contains(directory))
                     continue;
 
-                BuildFileListRecursive(directory, blacklist, list, depth + 1);
+                BuildFileListRecursive(directory, blacklist, list, depth + 1, progressCallback);
             }
 
             // Then, add files from current directory
@@ -56,16 +61,21 @@ public class FileScanner
                     continue;
 
                 list.Add(new MappedFile(file, fileInfo.Length, depth));
+
+                // Report progress every 100 files
+                if (progressCallback != null && list.Count % 100 == 0)
+                {
+                    progressCallback(list.Count);
+                }
             }
         }
         catch (UnauthorizedAccessException)
         {
-            Console.WriteLine($"Warning: Access denied to directory: {startPath}");
+            // Silently skip access denied directories during scanning
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Warning: Failed to read directory: {startPath}");
-            Console.WriteLine($"  Error: {ex.Message}");
+            // Silently skip directories that fail to read during scanning
         }
     }
 }

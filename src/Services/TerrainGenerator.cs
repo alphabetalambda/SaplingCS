@@ -156,13 +156,16 @@ public class TerrainGenerator
         List<MappedFile> fileList,
         int parentDepth,
         string worldPath,
-        bool debug = false)
+        bool debug = false,
+        Action<int, string>? progressCallback = null)
     {
         var nodes = new Queue<Vector>();
         nodes.Enqueue(new Vector(0, 32, 0));
 
         int terrainGroup = 0;
         string lastParent = "";
+        int totalFiles = fileList.Count;
+        int processedFiles = 0;
 
         // Track trees and ponds to place after current terrain group
         var trees = new List<(Vector Pos, List<MappedFile> Files)>();
@@ -173,8 +176,6 @@ public class TerrainGenerator
         // Random direction suppression for organic shapes
         int suppressFor = 0;
         int suppressDirection = 0;
-
-        Console.WriteLine("Generating terrain...");
 
         // First pass - general terrain shape and features
         while (fileList.Count > 0 && nodes.Count > 0)
@@ -227,7 +228,7 @@ public class TerrainGenerator
 
             if (lastParent != shortParent)
             {
-                Console.WriteLine($"  Mapping \"{shortParent}\" to blocks");
+                progressCallback?.Invoke(processedFiles, shortParent);
                 lastParent = shortParent;
             }
 
@@ -237,6 +238,13 @@ public class TerrainGenerator
                 : "grass_block";
 
             _mapping[key] = new BlockMapping(pos, file.Path, blockType);
+            processedFiles++;
+
+            // Report progress periodically
+            if (progressCallback != null && processedFiles % 100 == 0)
+            {
+                progressCallback(processedFiles, shortParent);
+            }
 
             // Update terrain bounds
             if (pos.X < _terrainBoundsMin.X) _terrainBoundsMin = _terrainBoundsMin with { X = pos.X };
@@ -288,10 +296,10 @@ public class TerrainGenerator
         }
 
         // Second pass - smooth terrain and write to region files
+        progressCallback?.Invoke(totalFiles, "Writing terrain to region files");
+
         await ForMappedChunksAsync(async (blocks, entries, chunkX, chunkZ, bounds) =>
         {
-            Console.WriteLine($"  Building data for chunk ({chunkX} {chunkZ})");
-
             // Smooth out terrain by moving lonely blocks
             int swaps;
             do
@@ -450,8 +458,6 @@ public class TerrainGenerator
             // Write chunk to region file
             await WriteChunkToRegionAsync(blocks, chunkX, chunkZ, bounds, worldPath);
         });
-
-        Console.WriteLine("Terrain generation complete!");
     }
 
     /// <summary>

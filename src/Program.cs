@@ -66,6 +66,7 @@ class Program
         var clipboardMonitor = new ClipboardMonitor(raycastService, options.ParentDepth);
         var blockChangeMonitor = new BlockChangeMonitor(
             worldParser, terrainGenerator, processManager, worldPath, options.AllowDelete);
+        var statusDisplay = new StatusDisplay();
 
         // Set up mapping persistence
         string mappingDir = Path.Combine(Directory.GetCurrentDirectory(), "mapping");
@@ -81,14 +82,36 @@ class Program
         }
         else
         {
-            Console.WriteLine($"Searching for files within \"{options.RootPath}\"...");
-            var fileList = fileScanner.BuildFileList(options.RootPath, options.Blacklist);
+            // Start status display
+            statusDisplay.Start();
+            statusDisplay.SetPhase("Scanning filesystem");
+
+            var fileList = fileScanner.BuildFileList(
+                options.RootPath,
+                options.Blacklist,
+                progressCallback: count => statusDisplay.UpdateFileScanning(count));
+
+            statusDisplay.Stop();
             Console.WriteLine($"Found {fileList.Count} files.\n");
 
-            Console.WriteLine("Generating terrain...");
+            // Start status display for terrain generation
+            statusDisplay.Start();
+            statusDisplay.SetPhase("Generating terrain");
+            statusDisplay.SetTotalFiles(fileList.Count);
+
             await terrainGenerator.BuildRegionDataAsync(
-                fileList, options.ParentDepth, worldPath, options.Debug);
-            Console.WriteLine($"Terrain generation complete!\n");
+                fileList,
+                options.ParentDepth,
+                worldPath,
+                options.Debug,
+                progressCallback: (processed, detail) =>
+                {
+                    statusDisplay.UpdateTerrainGeneration(processed);
+                    statusDisplay.SetDetail(detail);
+                });
+
+            statusDisplay.Stop();
+            Console.WriteLine("Terrain generation complete!\n");
 
             if (!options.NoProgress)
             {
