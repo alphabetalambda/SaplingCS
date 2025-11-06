@@ -4,6 +4,8 @@
 
 The **C# (.NET 9.0) implementation is significantly faster** than the JavaScript (Bun) version for most operations, with some tradeoffs in specific areas.
 
+**Test Hardware:** M4 13-inch MacBook Air
+
 ## Key Performance Differences
 
 ### 1. Terrain Generation (BFS Algorithm)
