@@ -27,27 +27,25 @@ We are on branch `dotnet-migration` working on porting SaplingFS from Bun/JavaSc
 7. Project builds successfully: `dotnet build` ✓
 8. Project runs: `dotnet run -- test_world` ✓
 
+### Phase 2: NBT & World I/O (COMPLETE)
+1. Implemented `Models/RegionFileCache.cs`:
+   - Record type for caching region file bytes and checksums
+2. Implemented `Services/WorldParser.cs` - Full port from `parseWorld.js`:
+   - ✅ `RegionToBlocksAsync()` - reads .mca files, decompresses chunks, parses NBT into block arrays
+   - ✅ `BlocksToRegionAsync()` - writes block arrays back to region files with NBT encoding
+   - ✅ `ForRegionAsync()` - iterator for region files within bounds
+   - ✅ `FillRegionFileCacheAsync()` - pre-loads all region files into cache
+   - ✅ Region file caching with SHA256 checksums for change detection
+   - ✅ Handles chunk location headers, compression (zlib), NBT parsing with fNbt library
+   - ✅ Supports palette-based block storage and packed long arrays
+3. Project builds successfully with no warnings ✓
+
 ### Git Status
 - Branch: `dotnet-migration`
 - Last commit: `a83c4f0` - "Initialize .NET 9.0 C# project structure for SaplingFS migration"
-- All changes committed and clean working tree
+- Uncommitted changes: Phase 2 implementation (RegionFileCache.cs, WorldParser.cs)
 
 ## What Needs to Be Done Next 🚀
-
-### Phase 2: NBT & World I/O (NEXT PRIORITY)
-
-Create these service files:
-
-1. **`Services/WorldParser.cs`** - Port from `parseWorld.js`
-   - Use fNBT library for NBT parsing
-   - Implement `RegionToBlocksAsync()` - reads .mca files into block arrays
-   - Implement `BlocksToRegionAsync()` - writes block arrays to .mca files
-   - Implement region file caching with checksums
-   - Implement `ForRegionAsync()` - iterator for region files
-
-2. **`Models/RegionFileCache.cs`** - Region file caching
-   - Dictionary of region files with checksums
-   - Methods to load/save region data
 
 ### Phase 3: Terrain Generation (AFTER PHASE 2)
 
