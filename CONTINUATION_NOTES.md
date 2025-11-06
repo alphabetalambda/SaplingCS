@@ -40,14 +40,39 @@ We are on branch `dotnet-migration` working on porting SaplingFS from Bun/JavaSc
    - ✅ Supports palette-based block storage and packed long arrays
 3. Project builds successfully with no warnings ✓
 
+### Phase 3: Terrain Generation (COMPLETE)
+1. Updated `Models/BlockMapping.cs`:
+   - Changed from class to record for immutability
+   - Uses `FilePath` string instead of `MappedFile` object
+   - Init-only properties with `with` expressions support
+2. Implemented `Services/TerrainGenerator.cs` - Full port from `worldGenTools.js`:
+   - ✅ `BuildRegionDataAsync()` - Main BFS terrain generation algorithm
+   - ✅ Groups files by parent directories to create distinct terrain "islands"
+   - ✅ Random direction suppression for organic, non-diamond shapes
+   - ✅ Tree placement (62 blocks per tree) with collision detection
+   - ✅ Water body/pond generation with fill algorithm
+   - ✅ `ForMappedChunksAsync()` - Iterator for chunks containing mapped blocks
+   - ✅ Terrain smoothing - moves lonely blocks to better cluster positions
+   - ✅ Natural terrain rules: grass→dirt→stone conversion based on coverage
+   - ✅ Random ore vein placement (coal, iron, gold)
+   - ✅ Short grass generation for single-block stubs
+   - ✅ Water expansion algorithm with neighbor checking
+   - ✅ `FinalizeTerrainGroupAsync()` - Places trees and ponds between groups
+   - ✅ `WriteChunkToRegionAsync()` - Writes chunks to .mca files
+3. Helper methods implemented:
+   - `IsGroundBlock()`, `IsHeavyBlock()`, `IsAir()` - Block type checks
+   - `CountAdjacent()` - Counts neighbors for clustering
+   - `ForTreeBlocks()` - Iterates 62 tree blocks (trunk + leaves)
+4. Project builds successfully with no warnings ✓
+
 ### Git Status
 - Branch: `dotnet-migration`
-- Last commit: `a83c4f0` - "Initialize .NET 9.0 C# project structure for SaplingFS migration"
-- Uncommitted changes: Phase 2 implementation (RegionFileCache.cs, WorldParser.cs)
+- Last commit: `cf84e12` - "Implement Phase 2: NBT & World I/O for Minecraft region files"
+- Uncommitted changes: Phase 3 implementation (BlockMapping.cs update, TerrainGenerator.cs)
 
 ## What Needs to Be Done Next 🚀
 
-### Phase 3: Terrain Generation (AFTER PHASE 2)
+### Phase 4: Monitoring & Main Program (NEXT PRIORITY)
 
 3. **`Services/TerrainGenerator.cs`** - Port from `worldGenTools.js`
    - Global `ConcurrentDictionary<string, BlockMapping>` for mapping

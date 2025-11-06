@@ -1,38 +1,32 @@
 namespace SaplingFS.Models;
 
 /// <summary>
-/// Represents the mapping between a world position, a file, and a Minecraft block.
+/// Represents the mapping between a world position, a file path, and a Minecraft block.
 /// </summary>
-public class BlockMapping
+public record BlockMapping
 {
     /// <summary>
     /// Position of the block in the Minecraft world.
     /// </summary>
-    public Vector Position { get; set; }
+    public Vector Position { get; init; }
 
     /// <summary>
-    /// The file this block represents.
+    /// Path of the file this block represents.
     /// </summary>
-    public MappedFile File { get; set; }
+    public string FilePath { get; init; }
 
     /// <summary>
     /// The Minecraft block type (e.g., "grass_block", "stone", "oak_log").
     /// </summary>
-    public string Block { get; set; }
+    public string Block { get; init; }
 
-    /// <summary>
-    /// Used during chunk iteration to track which blocks have been processed.
-    /// </summary>
-    public bool Valid { get; set; }
-
-    public BlockMapping(Vector position, MappedFile file, string block)
+    public BlockMapping(Vector position, string filePath, string block)
     {
         Position = position;
-        File = file;
+        FilePath = filePath;
         Block = block;
-        Valid = false;
     }
 
     public override string ToString() =>
-        $"\"{Block}\" at ({Position}): \"{File.Path}\"";
+        $"\"{Block}\" at ({Position}): \"{FilePath}\"";
 }
